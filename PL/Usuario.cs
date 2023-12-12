@@ -30,7 +30,7 @@ namespace PL
             usuario.Edad = int.Parse(Console.ReadLine());
 
             bool resultado = BL.Usuario.Add(usuario);
-            if(resultado == true)
+            if (resultado == true)
             {
                 Console.WriteLine("Se inserto tu registro!");
             }
@@ -46,7 +46,7 @@ namespace PL
         public static void GetAll()
         {
             ML.Usuario usuario = BL.Usuario.GetAll();
-            foreach(ML.Usuario user in usuario.Usuarios)
+            foreach (ML.Usuario user in usuario.Usuarios)
             {
                 Console.WriteLine("Nombre:" + user.Nombre);
                 Console.WriteLine("Nombre:" + user.IdUsuario);
@@ -54,6 +54,22 @@ namespace PL
                 Console.WriteLine("Nombre:" + user.Edad);
                 Console.WriteLine("-------------------------------");
             }
+            Console.ReadKey();
+            //llamar al BL(metodo para recuperar la informacion)
+        }
+        public static void GetById()
+        {
+            Console.WriteLine("Ingrese el id del usuario que quiere consultar");
+            int idUsuario = int.Parse(Console.ReadLine());
+
+            ML.Usuario user = BL.Usuario.GetById(idUsuario);
+
+            Console.WriteLine("Nombre:" + user.Nombre);
+            Console.WriteLine("Nombre:" + user.IdUsuario);
+            Console.WriteLine("Nombre:" + user.ApellidoPaterno);
+            Console.WriteLine("Nombre:" + user.Edad);
+            Console.WriteLine("-------------------------------");
+
             Console.ReadKey();
             //llamar al BL(metodo para recuperar la informacion)
         }

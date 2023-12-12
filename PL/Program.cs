@@ -10,7 +10,8 @@ namespace PL
     {
         static void Main(string[] args)
         {
-            PL.Usuario.GetAll();
+            //switch case
+            PL.Usuario.GetById();
         }
     }
 }

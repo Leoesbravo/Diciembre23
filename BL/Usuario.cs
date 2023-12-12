@@ -11,7 +11,7 @@ namespace BL
     public class Usuario
     {
         //metodo para insertar la informacion
-        public static bool Add(ML.Usuario usuario) 
+        public static bool Add(ML.Usuario usuario)
         {
             bool result = false;
             try
@@ -33,22 +33,22 @@ namespace BL
                     parametros[2].Value = usuario.ApellidoMaterno;
                     parametros[3] = new SqlParameter("@Edad", SqlDbType.Int);
                     parametros[3].Value = usuario.Edad;
-                    
+
                     //objeto que ejecutara la sentencia
                     SqlCommand commnad = new SqlCommand(sentencia, context);
                     commnad.Parameters.AddRange(parametros);
                     //inicar conexion
                     commnad.Connection.Open();
                     int filasAfectadas = commnad.ExecuteNonQuery();
-                    
+
                     //validando si hubo filas afectadas
-                    if(filasAfectadas > 0)
+                    if (filasAfectadas > 0)
                     {
-                         result = true;
+                        result = true;
                     }
                     else
                     {
-                         result = false;
+                        result = false;
                     }
                 }
 
@@ -77,7 +77,7 @@ namespace BL
                     adapter.Fill(tablaUsuario);
                     //pasar la informacion de un data table a un mi modelo(ML.Usuario)
 
-                    if(tablaUsuario.Rows.Count > 0)
+                    if (tablaUsuario.Rows.Count > 0)
                     {
                         user.Usuarios = new List<ML.Usuario>();
                         foreach (DataRow registro in tablaUsuario.Rows)
@@ -103,6 +103,52 @@ namespace BL
             }
             return user;
         }
-        public static ML.Usuario GetById();
+        public static ML.Usuario GetById(int idUsuario)
+        {
+            ML.Usuario usuario = new ML.Usuario();
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Conexion.ObtenerConnectionString()))
+                {
+                    string sentencia = "UsuarioGetById";
+
+                    SqlCommand command = new SqlCommand(sentencia, context);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    SqlParameter[] parametro = new SqlParameter[1];
+                    parametro[0] = new SqlParameter("@IdUsuario", SqlDbType.Int);
+                    parametro[0].Value = idUsuario;
+
+                    command.Parameters.AddRange(parametro);
+
+                    DataTable tablaUsuario = new DataTable();
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                    adapter.Fill(tablaUsuario);
+
+                    if (tablaUsuario.Rows.Count == 1)
+                    {
+                        var registro = tablaUsuario.Rows[0];
+
+                        usuario = new ML.Usuario();
+                        usuario.IdUsuario = int.Parse(registro[0].ToString());
+                        usuario.Nombre = registro[1].ToString();
+                        usuario.ApellidoPaterno = registro[2].ToString();
+                        usuario.ApellidoMaterno = registro[3].ToString();
+                        usuario.Edad = int.Parse(registro[4].ToString());
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return usuario;
+        }
     }
 }
