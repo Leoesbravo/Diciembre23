@@ -59,5 +59,50 @@ namespace BL
             }
             return result;
         }
+        public static ML.Usuario GetAll()
+        {
+            ML.Usuario user = new ML.Usuario();
+            try
+            {
+                using (SqlConnection context = new SqlConnection(DL.Conexion.ObtenerConnectionString()))
+                {
+                    string query = "SELECT IdUsuario,Nombre,ApellidoPaterno,Edad FROM Usuario";
+
+                    //crear la tabla
+                    DataTable tablaUsuario = new DataTable();
+                    SqlCommand command = new SqlCommand(query, context);
+                    //leer la informacion
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+                    adapter.Fill(tablaUsuario);
+                    //pasar la informacion de un data table a un mi modelo(ML.Usuario)
+
+                    if(tablaUsuario.Rows.Count > 0)
+                    {
+                        user.Usuarios = new List<ML.Usuario>();
+                        foreach (DataRow registro in tablaUsuario.Rows)
+                        {
+                            ML.Usuario usuario = new ML.Usuario();
+                            usuario.IdUsuario = int.Parse(registro[0].ToString());
+                            usuario.Nombre = registro[1].ToString();
+                            usuario.ApellidoPaterno = registro[2].ToString();
+                            usuario.Edad = int.Parse(registro[3].ToString());
+
+                            user.Usuarios.Add(usuario);
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return user;
+        }
+        public static ML.Usuario GetById();
     }
 }

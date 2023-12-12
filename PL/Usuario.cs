@@ -42,6 +42,21 @@ namespace PL
 
             // Agregar(nombre, apellidoPaterno, apellidoMaterno)
         }
+        //toda la informacion
+        public static void GetAll()
+        {
+            ML.Usuario usuario = BL.Usuario.GetAll();
+            foreach(ML.Usuario user in usuario.Usuarios)
+            {
+                Console.WriteLine("Nombre:" + user.Nombre);
+                Console.WriteLine("Nombre:" + user.IdUsuario);
+                Console.WriteLine("Nombre:" + user.ApellidoPaterno);
+                Console.WriteLine("Nombre:" + user.Edad);
+                Console.WriteLine("-------------------------------");
+            }
+            Console.ReadKey();
+            //llamar al BL(metodo para recuperar la informacion)
+        }
 
     }
 }
