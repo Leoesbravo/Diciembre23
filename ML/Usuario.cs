@@ -26,5 +26,9 @@ namespace ML
         public string ApellidoMaterno { get; set; }
         public int Edad { get; set; }
         public List<Usuario> Usuarios { get; set; }
+
+        //Propiedad de navegacion
+        //Navegar entre clases
+        public ML.Rol Rol { get; set; }
     }
 }

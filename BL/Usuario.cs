@@ -150,5 +150,79 @@ namespace BL
             }
             return usuario;
         }
+        public static ML.Usuario GetByIdEF(int idUsuario)
+        {
+            ML.Usuario usuario = new ML.Usuario();
+            try
+            {
+                using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
+                {
+                    var objeto = context.UsuarioGetById(idUsuario).SingleOrDefault();
+                        //SingleOrDefault -- devuelve el unico valor 
+                        //FirstOrDefault -- devuelve el primero devuleve un valor por defecto
+
+                    if(objeto != null)
+                    {
+                        usuario.IdUsuario = objeto.IdUsuario;
+                        usuario.Nombre = objeto.Nombre;
+                        usuario.ApellidoMaterno = objeto.ApellidoMaterno;
+                        usuario.ApellidoPaterno = objeto.ApellidoPaterno;
+                        usuario.Edad = objeto.Edad;
+                    }
+                    else
+                    {
+
+                    }
+                        //ToList()
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return usuario;
+        }
+        public static ML.Usuario GetAllEF()
+        {
+            ML.Usuario usuario = new ML.Usuario();
+            try
+            {
+                using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
+                {
+                    var registros = context.UsuarioGetAll().ToList();
+                    if (registros != null)
+                    {
+                        usuario.Usuarios = new List<ML.Usuario>();
+                        foreach (var registro in registros)
+                        {
+                            //instancia -Crear un objeto
+                            ML.Usuario user = new ML.Usuario();
+
+                            user.IdUsuario = registro.IdUsuario;
+                            user.Nombre = registro.Nombre;
+                            user.ApellidoMaterno = registro.ApellidoMaterno;
+                            user.ApellidoPaterno = registro.ApellidoPaterno;
+                            user.Edad = registro.Edad;
+                            //siempre que quieran usar una propiedad de navegacion hay que 
+                            //instanciarla
+                            user.Rol = new ML.Rol();
+                            user.Rol.IdRol = registro.IdRol.Value;
+
+                            usuario.Usuarios.Add(user);
+                        }
+                    }
+                    else
+                    {
+                        //
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return usuario;
+        }
     }
 }

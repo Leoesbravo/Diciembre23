@@ -45,13 +45,16 @@ namespace PL
         //toda la informacion
         public static void GetAll()
         {
-            ML.Usuario usuario = BL.Usuario.GetAll();
+            ML.Usuario usuario = BL.Usuario.GetAllEF();
             foreach (ML.Usuario user in usuario.Usuarios)
             {
                 Console.WriteLine("Nombre:" + user.Nombre);
                 Console.WriteLine("Nombre:" + user.IdUsuario);
                 Console.WriteLine("Nombre:" + user.ApellidoPaterno);
                 Console.WriteLine("Nombre:" + user.Edad);
+                //se va a crear la instancia de la prop de navegacion solamente
+                //la primera vez que la vayan a utilizar
+                Console.WriteLine("Nombre:" + user.Rol.IdRol);
                 Console.WriteLine("-------------------------------");
             }
             Console.ReadKey();
@@ -62,7 +65,7 @@ namespace PL
             Console.WriteLine("Ingrese el id del usuario que quiere consultar");
             int idUsuario = int.Parse(Console.ReadLine());
 
-            ML.Usuario user = BL.Usuario.GetById(idUsuario);
+            ML.Usuario user = BL.Usuario.GetByIdEF(idUsuario);
 
             Console.WriteLine("Nombre:" + user.Nombre);
             Console.WriteLine("Nombre:" + user.IdUsuario);
