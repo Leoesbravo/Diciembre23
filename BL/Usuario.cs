@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace BL
@@ -223,6 +226,99 @@ namespace BL
 
             }
             return usuario;
+        }
+
+        //LINQ--.NET(C#, Visual Basic)
+        //lenguaje interno que permite realizar consultas directamente desde
+        //nuestro codigo
+        //puede ser a una base de datos
+        //o pueder a cualquier estructura de datos(listas, arreglos, diccionario)
+        //sintaxis es similar a la de SQL, metodos
+        public static ML.Usuario GetAllLINQ()
+        {
+            ML.Usuario usuario = new ML.Usuario();
+            try
+            {
+                using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
+                {
+                    //metodo tolist
+                    //var objetos = context.Usuarios.ToList();
+                    var query = (from Usuario in context.Usuarios
+                                 join Rol in context.Rols on Usuario.IdRol equals Rol.IdRol
+                                 select new
+                                 {
+                                     IdUsuario = Usuario.IdUsuario,
+                                     Nombre = Usuario.Nombre,
+                                     ApellidoPaterno = Usuario.ApellidoPaterno,
+                                     ApellidoMaterno = Usuario.ApellidoMaterno,
+                                     Edad = Usuario.Edad,
+                                     IdRol = Rol.IdRol,
+                                     NombreRol = Rol.Tipo
+                                 }).ToList();
+                    if (query != null)
+                    {
+                        usuario.Usuarios = new List<ML.Usuario>();
+                        foreach (var registro in query)
+                        {
+                            //instancia -Crear un objeto
+                            ML.Usuario user = new ML.Usuario();
+
+                            user.IdUsuario = registro.IdUsuario;
+                            user.Nombre = registro.Nombre;
+                            user.ApellidoMaterno = registro.ApellidoMaterno;
+                            user.ApellidoPaterno = registro.ApellidoPaterno;
+                            user.Edad = registro.Edad;
+                            //siempre que quieran usar una propiedad de navegacion hay que 
+                            //instanciarla
+                            user.Rol = new ML.Rol();
+                            user.Rol.IdRol = registro.IdRol;
+                            user.Rol.Tipo = registro.NombreRol;
+
+                            usuario.Usuarios.Add(user);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //como se pueden manejar las exepciones
+            }
+            return usuario;
+        }
+        public static bool AddLINQ(ML.Usuario usuario)
+        {
+            bool resultado = false;
+            try
+            {
+                using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
+                {
+                    DL_EF.Usuario usuarioEntity = new DL_EF.Usuario();
+
+                    usuarioEntity.Nombre = usuario.Nombre;
+                    usuarioEntity.ApellidoPaterno = usuario.ApellidoPaterno;
+                    usuarioEntity.ApellidoMaterno = usuario.ApellidoMaterno;
+                    usuarioEntity.Edad = usuario.Edad;
+
+                    context.Usuarios.Add(usuarioEntity);
+                    int filasAfectadas = context.SaveChanges();
+                    if(filasAfectadas > 0)
+                    {
+                        resultado = true;
+                    }
+                    else
+                    {
+                        resultado = false;
+                    }
+
+                }
+
+            
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return resultado;
         }
     }
 }

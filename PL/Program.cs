@@ -8,10 +8,10 @@ namespace PL
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] args) 
         {
             //switch case
-            PL.Usuario.GetAll();
+            PL.Usuario.Add();
         }
     }
 }
