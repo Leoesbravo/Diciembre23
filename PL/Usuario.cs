@@ -29,16 +29,16 @@ namespace PL
             //int edad = int.Parse(Console.ReadLine());
             usuario.Edad = int.Parse(Console.ReadLine());
 
-            bool resultado = BL.Usuario.AddLINQ(usuario);
-            if (resultado == true)
-            {
-                Console.WriteLine("Se inserto tu registro!");
-            }
-            else
-            {
-                Console.WriteLine("NO se inserto el registro");
-            }
-            Console.ReadKey();
+            //bool resultado = BL.Usuario.AddLINQ(usuario);
+            //if (resultado == true)
+            //{
+            //    Console.WriteLine("Se inserto tu registro!");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("NO se inserto el registro");
+            //}
+            //Console.ReadKey();
 
             // Agregar(nombre, apellidoPaterno, apellidoMaterno)
         }

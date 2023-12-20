@@ -234,9 +234,12 @@ namespace BL
         //puede ser a una base de datos
         //o pueder a cualquier estructura de datos(listas, arreglos, diccionario)
         //sintaxis es similar a la de SQL, metodos
-        public static ML.Usuario GetAllLINQ()
+
+        public static Dictionary<string,object> GetAllLINQ()
         {
             ML.Usuario usuario = new ML.Usuario();
+           string exepcion = "";
+           Dictionary<string, object> diccionario = new Dictionary<string, object>{ {"Usuario",usuario  },{"Exepcion",exepcion  }, { "Resultado", false} };
             try
             {
                 using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
@@ -276,18 +279,23 @@ namespace BL
 
                             usuario.Usuarios.Add(user);
                         }
+                        diccionario["Resultado"] = true;
+                        diccionario["Usuario"] = usuario;
                     }
                 }
             }
             catch (Exception ex)
             {
-                //como se pueden manejar las exepciones
+                diccionario["Resultado"] = false;
+                diccionario["Exepcion"] = ex.Message;
             }
-            return usuario;
+            return diccionario;
         }
-        public static bool AddLINQ(ML.Usuario usuario)
+        public static Dictionary<string,object> AddLINQ(ML.Usuario usuario)
         {
-            bool resultado = false;
+            string exepcion = "";
+            Dictionary<string, object> diccionario = new Dictionary<string, object> {{ "Exepcion", exepcion }, { "Resultado", false } };
+
             try
             {
                 using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
@@ -303,11 +311,11 @@ namespace BL
                     int filasAfectadas = context.SaveChanges();
                     if(filasAfectadas > 0)
                     {
-                        resultado = true;
+                       
                     }
                     else
                     {
-                        resultado = false;
+                        
                     }
 
                 }
@@ -318,7 +326,7 @@ namespace BL
             {
 
             }
-            return resultado;
+            return diccionario;
         }
     }
 }

@@ -1,0 +1,38 @@
+﻿@model ML.Usuario
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model == null)
+{
+    <div class="alert alert-warning" role="alert">
+        Ocurrio Error!
+    </div>
+}
+else
+{
+    <table class="table table-dark table-hover">
+        <thead class="table-secondary">
+            <tr class="text-center">
+                <th>Editar</th>
+                <th>Id Usuario</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ML.Usuario usuario in Model.Usuarios)
+            {
+                <tr>
+                    <td><button class="btn btn-warning">Editar</button></td>
+                    <td>@usuario.IdUsuario</td>
+                    <td>@usuario.Nombre @usuario.ApellidoPaterno</td>
+                    <td>@usuario.Edad</td>
+                    <td><button class="btn btn-danger">Eliminar</button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
