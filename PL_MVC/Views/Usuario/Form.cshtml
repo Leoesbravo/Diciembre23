@@ -1,0 +1,38 @@
+﻿@model ML.Usuario
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Formulario de Usuario</h2>
+<hr />
+@using (Html.BeginForm("Form", "Usuario", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Nombre)
+            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.ApellidoPaterno)
+            @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.ApellidoMaterno)
+            @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Edad)
+            @Html.TextBoxFor(model => model.Edad, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <input type="submit" class="btn btn-success" value="Guardar" />
+        <a href="@Url.Action("GetAll", "Usuario")" class="btn btn-danger">Cancelar</a>
+    </div>
+
+}
+
+
