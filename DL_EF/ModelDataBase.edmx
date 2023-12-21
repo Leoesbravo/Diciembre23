@@ -35,6 +35,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="RolGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UsuarioGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UsuarioGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdUsuario" Type="int" Mode="In" />
@@ -74,6 +75,7 @@
             <End Role="Usuario" EntitySet="Usuarios" />
           </AssociationSet>
           <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetAll_Result)" />
+          <FunctionImport Name="RolGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.RolGetAll_Result)" />
         </EntityContainer>
         <ComplexType Name="UsuarioGetById_Result">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
@@ -109,6 +111,10 @@
           <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="Edad" Nullable="false" />
           <Property Type="Int32" Name="IdRol" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="RolGetAll_Result">
+          <Property Type="Int32" Name="IdRol" Nullable="false" />
+          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -156,6 +162,14 @@
                 <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
                 <ScalarProperty Name="Edad" ColumnName="Edad" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RolGetAll" FunctionName="LEscogidoNormalizacionModel.Store.RolGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.RolGetAll_Result">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

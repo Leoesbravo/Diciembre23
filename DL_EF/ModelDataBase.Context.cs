@@ -43,5 +43,10 @@ namespace DL_EF
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll");
         }
+    
+        public virtual ObjectResult<RolGetAll_Result> RolGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RolGetAll_Result>("RolGetAll");
+        }
     }
 }

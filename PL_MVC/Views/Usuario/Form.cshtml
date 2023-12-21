@@ -28,6 +28,10 @@
             @Html.LabelFor(model => model.Edad)
             @Html.TextBoxFor(model => model.Edad, new { @class = "form-control" })
         </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Rol.IdRol)
+            @Html.DropDownListFor(model => model.Rol.IdRol,new  SelectList(Model.Rol.Roles, "IdRol", "Tipo"), "Selecciona un Rol",new {@class= "form-control"}  )
+        </div>
     </div><div class="row">
         @if (Model.IdUsuario != 0)
         {

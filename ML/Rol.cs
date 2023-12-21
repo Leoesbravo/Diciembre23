@@ -10,5 +10,6 @@ namespace ML
     {
         public int IdRol { get; set; }
         public string Tipo { get; set; }
+        public List<Rol> Roles { get; set; }
     }
 }

@@ -39,6 +39,20 @@ namespace PL_MVC.Controllers
         [HttpGet]
         public ActionResult Form(int? IdUsuario)
         {
+            Dictionary<string, object> resultRol = BL.Rol.GetAll();
+            bool rolCorrect = (bool)resultRol["Resultado"];
+            ML.Usuario usuario = new ML.Usuario();
+
+            if (rolCorrect)
+            {
+                ML.Rol rol = (ML.Rol)resultRol["Rol"];              
+                usuario.Rol = new ML.Rol();
+                usuario.Rol.Roles = rol.Roles;
+            }
+            else
+            {
+                //Modal diciendo que salio mal
+            }
             if(IdUsuario != null)
             {
                 Dictionary<string, object> result = BL.Usuario.GetByIdEF(IdUsuario.Value);
@@ -46,7 +60,7 @@ namespace PL_MVC.Controllers
 
                 if (resultado == true)
                 {
-                    ML.Usuario usuario = (ML.Usuario)result["Usuario"];
+                    usuario = (ML.Usuario)result["Usuario"];
                     return View(usuario);
                 }
                 else
@@ -58,7 +72,6 @@ namespace PL_MVC.Controllers
             }
             else
             {
-                ML.Usuario usuario = new ML.Usuario();
                 return View(usuario);
             }
          
