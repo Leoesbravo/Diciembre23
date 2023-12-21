@@ -6,8 +6,9 @@
 
 <h2>Formulario de Usuario</h2>
 <hr />
-@using (Html.BeginForm("Form", "Usuario", FormMethod.Post))
+@using (Html.BeginForm("Form", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    @Html.HiddenFor(model => model.IdUsuario)
     <div class="row">
         <div class="col-md-4">
             @Html.LabelFor(model => model.Nombre)
@@ -27,12 +28,18 @@
             @Html.LabelFor(model => model.Edad)
             @Html.TextBoxFor(model => model.Edad, new { @class = "form-control" })
         </div>
-    </div>
-    <div class="row">
-        <input type="submit" class="btn btn-success" value="Guardar" />
+    </div><div class="row">
+        @if (Model.IdUsuario != 0)
+        {
+            <input type="submit" class="btn btn-info" value="Actualizar" />
+        }
+        else
+        {
+          <input type="submit" class="btn btn-success" value="Agregar" />
+        }
+
         <a href="@Url.Action("GetAll", "Usuario")" class="btn btn-danger">Cancelar</a>
     </div>
 
 }
-
 

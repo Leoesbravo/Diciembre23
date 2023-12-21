@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Management;
 using System.Web.Mvc;
 
 namespace PL_MVC.Controllers
@@ -34,31 +35,64 @@ namespace PL_MVC.Controllers
 
         }
         //mostrar el formulario
+        //tipos de datos nullables
         [HttpGet]
-        public ActionResult Form()
+        public ActionResult Form(int? IdUsuario)
         {
-            return View();
+            if(IdUsuario != null)
+            {
+                Dictionary<string, object> result = BL.Usuario.GetByIdEF(IdUsuario.Value);
+                bool resultado = (bool)result["Resultado"];
+
+                if (resultado == true)
+                {
+                    ML.Usuario usuario = (ML.Usuario)result["Usuario"];
+                    return View(usuario);
+                }
+                else
+                {
+                    string exepcion = (string)result["Exepcion"];
+                    ViewBag.Mensaje = "Ocurrio un error al recuperar la informacion" + exepcion;
+                    return PartialView("Modal");
+                }
+            }
+            else
+            {
+                ML.Usuario usuario = new ML.Usuario();
+                return View(usuario);
+            }
+         
+
         }
         //insertar la informacion
         [HttpPost]
         public ActionResult Form(ML.Usuario usuario)
         {
-
-            Dictionary<string, object> result = BL.Usuario.AddLINQ(usuario);
-            bool resultado = (bool)result["Resultado"];
-
-            if (resultado == true)
+            if(usuario.IdUsuario > 0)
             {
-                ViewBag.Mensaje = "El Usuario ha sido insertado";
+                //llamar al update
+                ViewBag.Mensaje = "Se ha actualizado el registro";
                 return PartialView("Modal");
             }
             else
             {
-                //pendiente la alerta               
-                string exepcion = (string)result["Exepcion"];
-                ViewBag.Mensaje = "El Usuario no se pudo registrar " + exepcion;
-                return PartialView("Modal");
+                Dictionary<string, object> result = BL.Usuario.AddLINQ(usuario);
+                bool resultado = (bool)result["Resultado"];
+
+                if (resultado == true)
+                {
+                    ViewBag.Mensaje = "El Usuario ha sido insertado";
+                    return PartialView("Modal");
+                }
+                else
+                {
+                    //pendiente la alerta               
+                    string exepcion = (string)result["Exepcion"];
+                    ViewBag.Mensaje = "El Usuario no se pudo registrar " + exepcion;
+                    return PartialView("Modal");
+                }
             }
+
         }
         [HttpGet]
         public ActionResult Delete(int IdUsuario)

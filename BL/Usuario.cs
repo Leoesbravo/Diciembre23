@@ -153,9 +153,12 @@ namespace BL
             }
             return usuario;
         }
-        public static ML.Usuario GetByIdEF(int idUsuario)
+        public static Dictionary<string,object> GetByIdEF(int idUsuario)
         {
             ML.Usuario usuario = new ML.Usuario();
+            string exepcion = "";
+            Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Usuario", usuario }, { "Exepcion", exepcion }, { "Resultado", false } };
+
             try
             {
                 using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
@@ -171,6 +174,9 @@ namespace BL
                         usuario.ApellidoMaterno = objeto.ApellidoMaterno;
                         usuario.ApellidoPaterno = objeto.ApellidoPaterno;
                         usuario.Edad = objeto.Edad;
+
+                        diccionario["Resultado"] = true;
+                        diccionario["Usuario"] = usuario;
                     }
                     else
                     {
@@ -183,7 +189,7 @@ namespace BL
             {
 
             }
-            return usuario;
+            return diccionario;
         }
         public static ML.Usuario GetAllEF()
         {
