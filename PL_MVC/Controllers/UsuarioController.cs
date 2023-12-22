@@ -42,25 +42,20 @@ namespace PL_MVC.Controllers
             Dictionary<string, object> resultRol = BL.Rol.GetAll();
             bool rolCorrect = (bool)resultRol["Resultado"];
             ML.Usuario usuario = new ML.Usuario();
+            ML.Rol rol = (ML.Rol)resultRol["Rol"];
+            usuario.Rol = new ML.Rol();
+            usuario.Rol.Roles = rol.Roles;
 
-            if (rolCorrect)
-            {
-                ML.Rol rol = (ML.Rol)resultRol["Rol"];              
-                usuario.Rol = new ML.Rol();
-                usuario.Rol.Roles = rol.Roles;
-            }
-            else
-            {
-                //Modal diciendo que salio mal
-            }
-            if(IdUsuario != null)
+            if(IdUsuario != null )
             {
                 Dictionary<string, object> result = BL.Usuario.GetByIdEF(IdUsuario.Value);
                 bool resultado = (bool)result["Resultado"];
 
-                if (resultado == true)
+                if (resultado == true && rolCorrect == true)
                 {
                     usuario = (ML.Usuario)result["Usuario"];
+                    usuario.Rol = new ML.Rol();
+                    usuario.Rol.Roles = rol.Roles;
                     return View(usuario);
                 }
                 else
