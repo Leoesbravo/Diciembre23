@@ -24,7 +24,7 @@ else
             <tr class="text-center">
                 <th>Editar</th>
                 <th>Id Usuario</th>
-                <th>Nombre</th>
+                <th><i class="fa-solid fa-circle-user" style="color: #000000;"></i> Nombre</th>
                 <th>Edad</th>
                 <th>Eliminar</th>
             </tr>
@@ -33,11 +33,11 @@ else
             @foreach (ML.Usuario usuario in Model.Usuarios)
             {
                 <tr>
-                    <td><a href="@Url.Action("Form","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-warning">Editar</a></td>
+                    <td><a href="@Url.Action("Form","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-warning"><i class="fa-regular fa-pen-to-square" style="color: #000000;"></i></a></td>
                     <td>@usuario.IdUsuario</td>
                     <td>@usuario.Nombre @usuario.ApellidoPaterno</td>
                     <td>@usuario.Edad</td>
-                    <td><a href="@Url.Action("Delete","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-danger">Eliminar</a></td>
+                    <td class="text-center"><a href="@Url.Action("Delete","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-danger"><i class="bi bi-trash" style="color:black"></i></a></td>
                 </tr>
             }
         </tbody>

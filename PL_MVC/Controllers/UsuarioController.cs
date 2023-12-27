@@ -126,7 +126,7 @@ namespace PL_MVC.Controllers
         {
             Dictionary<string, object> resultado = BL.Estado.GetByIdPais(idPais);
             ML.Estado estado = (ML.Estado)resultado["Estado"];
-            return Json(estado.Estados);
+            return Json(estado.Estados, JsonRequestBehavior.AllowGet);
         }
     }
 }

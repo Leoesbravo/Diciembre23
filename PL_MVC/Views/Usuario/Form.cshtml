@@ -4,24 +4,28 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Formulario de Usuario</h2>
+<h2 class="text-center">Formulario de Usuarios <i class="fa-solid fa-circle-user" style="color: #000000;"></i></h2>
 <hr />
 @using (Html.BeginForm("Form", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(model => model.IdUsuario)
     <div class="row">
-        <div class="col-md-4">
-            @Html.LabelFor(model => model.Nombre)
+
+    <div class="col-md-4">
+        @Html.LabelFor(model => model.Nombre)
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-circle-user" style="color: #000000;"></i></span>
             @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
         </div>
-        <div class="col-md-4">
-            @Html.LabelFor(model => model.ApellidoPaterno)
-            @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
-        </div>
-        <div class="col-md-4">
-            @Html.LabelFor(model => model.ApellidoMaterno)
-            @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
-        </div>
+    </div>
+    <div class="col-md-4">
+        @Html.LabelFor(model => model.ApellidoPaterno)
+        @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+    </div>
+    <div class="col-md-4">
+        @Html.LabelFor(model => model.ApellidoMaterno)
+        @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+    </div>
     </div>
     <div class="row">
         <div class="col-md-4">
@@ -38,6 +42,10 @@
         <h3>Dirección</h3>
     </div>
     <div class="row">
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Direccion.Calle)
+            @Html.TextBoxFor(model => model.Direccion.Calle, new { @class = "form-control" })
+        </div>
         <div class="col-md-4">
             @Html.LabelFor(model => model.Direccion.Colonia.Municipio.Estado.Pais.IdPais)
             @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.Pais.IdPais, new SelectList(Model.Direccion.Colonia.Municipio.Estado.Pais.Paises, "IdPais", "Nombre"), "Selecciona un Pais", new { @class = "form-control", @id = "ddlPais" })
@@ -75,7 +83,7 @@
          $("#ddlPais").change(function () {
                     $("#ddlEstado").empty();
                     $.ajax({
-                        type: 'POST',
+                        type: 'GET',
                         url: '@Url.Action("EstadoGetByIdPais", "Usuario")',
                         dataType: 'json',
                         data: { idPais: $("#ddlPais").val() },
@@ -83,12 +91,14 @@
                             $("#ddlEstado").append('<option value="0">'+ 'Seleccione un estado' + '</option>');
                             $.each(estados, function (i, estados) {
                                 $("#ddlEstado").append('<option value="'
-                                                           + estados.idEstado + '">'
-                                                           + estados.nombre + '</option>');
+                                                           + estados.IdEstado + '">'
+                                                           + estados.Nombre + '</option>');
                             });
                         },
-                        error: function (ex) {
-                            alert('Ocurrio un error al recibir la información.' + ex);
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                            console.log(status);
+                            console.log(error);
                         }
                     });
                 });
