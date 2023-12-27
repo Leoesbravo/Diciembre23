@@ -75,7 +75,7 @@
          $("#ddlPais").change(function () {
                     $("#ddlEstado").empty();
                     $.ajax({
-                        type: 'GET',
+                        type: 'POST',
                         url: '@Url.Action("EstadoGetByIdPais", "Usuario")',
                         dataType: 'json',
                         data: { idPais: $("#ddlPais").val() },
