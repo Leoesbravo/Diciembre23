@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Ajax";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 >Ejemplo Ajax y Jquery</h2>
+
+<button id="boton" onclick="cambiarColor()" class="btn">cambiar color</button>
+<button  class="btn">No cambia</button>
+<button >Limpiar</button>
+<input type="text" />
+<hr />
+<div id="div" class="text-center">
+    <button onclick="obtenerUsuario()">Mostrar elementos</button>
+</div>
+<script type="text/javascript">
+    function cambiarColor() {
+        $(".btn").addClass("btn-success");
+    }
+    function obtenerUsuario() {
+        $.ajax({
+            url: 'https://randomuser.me/api/',
+            dataType: 'json',
+            success: function (data) {
+                $("#div").append("<h2>" + data.results[0].email + "<h2/>");
+            }
+        });
+    }
+</script>
+

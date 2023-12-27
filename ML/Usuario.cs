@@ -30,5 +30,6 @@ namespace ML
         //Propiedad de navegacion
         //Navegar entre clases
         public ML.Rol Rol { get; set; }
+        public ML.Direccion Direccion { get; set; }
     }
 }

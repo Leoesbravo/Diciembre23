@@ -4,10 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="2e979845b732408ea4b0596398a74584" Name="Diagram1">
-        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Usuario" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Rol" Width="1.5" PointX="3.625" PointY="1.25" />
+      <Diagram DiagramId="2e979845b732408ea4b0596398a74584" Name="Diagram1" ZoomLevel="81">
+        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Usuario" Width="1.5" PointX="7.875" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Rol" Width="1.5" PointX="10.625" PointY="0.5" />
         <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC" />
+        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Colonia" Width="1.5" PointX="10.125" PointY="4.125" />
+        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Direccion" Width="1.5" PointX="12.375" PointY="2.25" />
+        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Estado" Width="1.5" PointX="5.625" PointY="4.125" />
+        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Municipio" Width="1.5" PointX="7.875" PointY="4.125" />
+        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Pai" Width="1.5" PointX="3.375" PointY="4.375" />
+        <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Colonia__IdMunic__46E78A0C" />
+        <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Direccion__IdCol__4D94879B" />
+        <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Direccion__IdUsu__4CA06362" />
+        <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Estado__IdPais__412EB0B6" />
+        <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Municipio__IdEst__440B1D61" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -39,24 +39,15 @@ namespace PL_MVC.Controllers
         [HttpGet]
         public ActionResult Form(int? IdUsuario)
         {
-            Dictionary<string, object> resultRol = BL.Rol.GetAll();
-            bool rolCorrect = (bool)resultRol["Resultado"];
             ML.Usuario usuario = new ML.Usuario();
-            ML.Rol rol = (ML.Rol)resultRol["Rol"];
-            usuario.Rol = new ML.Rol();
-            usuario.Rol.Roles = rol.Roles;
-
-            if(IdUsuario != null )
+            if (IdUsuario != null)
             {
                 Dictionary<string, object> result = BL.Usuario.GetByIdEF(IdUsuario.Value);
                 bool resultado = (bool)result["Resultado"];
 
-                if (resultado == true && rolCorrect == true)
+                if (resultado == true)
                 {
                     usuario = (ML.Usuario)result["Usuario"];
-                    usuario.Rol = new ML.Rol();
-                    usuario.Rol.Roles = rol.Roles;
-                    return View(usuario);
                 }
                 else
                 {
@@ -65,18 +56,38 @@ namespace PL_MVC.Controllers
                     return PartialView("Modal");
                 }
             }
-            else
+            Dictionary<string, object> resultRol = BL.Rol.GetAll();
+            Dictionary<string, object> resultPais = BL.Pais.GetAll();
+            bool rolCorrect = (bool)resultRol["Resultado"];
+            if (rolCorrect == true)
             {
+                ML.Rol rol = (ML.Rol)resultRol["Rol"];
+                usuario.Rol = new ML.Rol();
+                usuario.Rol.Roles = rol.Roles;
+
+                ML.Pais pais = (ML.Pais)resultPais["Pais"];
+                usuario.Direccion = new ML.Direccion();
+                usuario.Direccion.Colonia = new ML.Colonia();
+                usuario.Direccion.Colonia.Municipio = new ML.Municipio();
+                usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+                usuario.Direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
+                usuario.Direccion.Colonia.Municipio.Estado.Pais.Paises = pais.Paises;
+
                 return View(usuario);
             }
-         
+            else
+            {
+                string exepcion = (string)resultRol["Exepcion"];
+                ViewBag.Mensaje = "Ocurrio un error al recuperar la informacion" + exepcion;
+                return PartialView("Modal");
+            }
 
         }
         //insertar la informacion
         [HttpPost]
         public ActionResult Form(ML.Usuario usuario)
         {
-            if(usuario.IdUsuario > 0)
+            if (usuario.IdUsuario > 0)
             {
                 //llamar al update
                 ViewBag.Mensaje = "Se ha actualizado el registro";
@@ -106,6 +117,16 @@ namespace PL_MVC.Controllers
         public ActionResult Delete(int IdUsuario)
         {
             return View();
+        }
+        public ActionResult Ajax()
+        {
+            return View();
+        }
+        public JsonResult  EstadoGetByIdPais(int idPais)
+        {
+            Dictionary<string, object> resultado = BL.Estado.GetByIdPais(idPais);
+            ML.Estado estado = (ML.Estado)resultado["Estado"];
+            return Json(estado.Estados);
         }
     }
 }

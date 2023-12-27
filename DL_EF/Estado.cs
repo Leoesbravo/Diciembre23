@@ -12,23 +12,20 @@ namespace DL_EF
     using System;
     using System.Collections.Generic;
     
-    public partial class Usuario
+    public partial class Estado
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Usuario()
+        public Estado()
         {
-            this.Direccions = new HashSet<Direccion>();
+            this.Municipios = new HashSet<Municipio>();
         }
     
-        public int IdUsuario { get; set; }
+        public byte IdEstado { get; set; }
         public string Nombre { get; set; }
-        public string ApellidoPaterno { get; set; }
-        public string ApellidoMaterno { get; set; }
-        public int Edad { get; set; }
-        public Nullable<int> IdRol { get; set; }
+        public Nullable<byte> IdPais { get; set; }
     
-        public virtual Rol Rol { get; set; }
+        public virtual Pai Pai { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Direccion> Direccions { get; set; }
+        public virtual ICollection<Municipio> Municipios { get; set; }
     }
 }

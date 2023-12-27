@@ -30,20 +30,69 @@
         </div>
         <div class="col-md-4">
             @Html.LabelFor(model => model.Rol.IdRol)
-            @Html.DropDownListFor(model => model.Rol.IdRol,new  SelectList(Model.Rol.Roles, "IdRol", "Tipo"), "Selecciona un Rol",new {@class= "form-control"}  )
+            @Html.DropDownListFor(model => model.Rol.IdRol, new SelectList(Model.Rol.Roles, "IdRol", "Tipo"), "Selecciona un Rol", new { @class = "form-control" })
         </div>
-    </div><div class="row">
+    </div>
+    <hr />
+    <div class="text-center">
+        <h3>Dirección</h3>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Direccion.Colonia.Municipio.Estado.Pais.IdPais)
+            @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.Pais.IdPais, new SelectList(Model.Direccion.Colonia.Municipio.Estado.Pais.Paises, "IdPais", "Nombre"), "Selecciona un Pais", new { @class = "form-control", @id = "ddlPais" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Direccion.Colonia.Municipio.Estado)
+            @if (Model.Direccion.Colonia.Municipio.Estado.Estados == null)
+            {
+                @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.IdEstado, new SelectList(string.Empty, "Value", "Text"), "Selecciona un Pais primero", new { @class = "form-control", @id = "ddlEstado" })
+            }
+            else
+            {
+                @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.IdEstado, new SelectList(Model.Direccion.Colonia.Municipio.Estado.Estados, "IdEstado", "Nombre"), "Selecciona un Estado", new { @class = "form-control", @id = "ddlEstado" })
+            }
+
+        </div>
+    </div>
+    <div class="row">
         @if (Model.IdUsuario != 0)
         {
             <input type="submit" class="btn btn-info" value="Actualizar" />
         }
         else
         {
-          <input type="submit" class="btn btn-success" value="Agregar" />
+            <input type="submit" class="btn btn-success" value="Agregar" />
         }
 
         <a href="@Url.Action("GetAll", "Usuario")" class="btn btn-danger">Cancelar</a>
     </div>
 
 }
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+     $(document).ready(function () {
+         $("#ddlPais").change(function () {
+                    $("#ddlEstado").empty();
+                    $.ajax({
+                        type: 'GET',
+                        url: '@Url.Action("EstadoGetByIdPais", "Usuario")',
+                        dataType: 'json',
+                        data: { idPais: $("#ddlPais").val() },
+                        success: function (estados) {
+                            $("#ddlEstado").append('<option value="0">'+ 'Seleccione un estado' + '</option>');
+                            $.each(estados, function (i, estados) {
+                                $("#ddlEstado").append('<option value="'
+                                                           + estados.idEstado + '">'
+                                                           + estados.nombre + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Ocurrio un error al recibir la información.' + ex);
+                        }
+                    });
+                });
+
+            });
+</script>
 
