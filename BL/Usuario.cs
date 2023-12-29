@@ -186,6 +186,14 @@ namespace BL
                         usuario.Direccion.Colonia.Municipio.IdMunicipio = objeto.IdMunicipio;
                         usuario.Direccion.Colonia.Municipio.Nombre = objeto.MunicipioNombre;
 
+                        usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+                        usuario.Direccion.Colonia.Municipio.Estado.IdEstado = objeto.IdEstado;
+
+
+                        usuario.Direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
+                        usuario.Direccion.Colonia.Municipio.Estado.Pais.IdPais = objeto.IdPais;
+
+
                         diccionario["Resultado"] = true;
                         diccionario["Usuario"] = usuario;
                     }

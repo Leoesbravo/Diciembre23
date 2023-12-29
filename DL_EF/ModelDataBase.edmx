@@ -208,7 +208,6 @@
             <End Role="Rol" EntitySet="Rols" />
             <End Role="Usuario" EntitySet="Usuarios" />
           </AssociationSet>
-          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetAll_Result)" />
           <FunctionImport Name="RolGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.RolGetAll_Result)" />
           <FunctionImport Name="PaisGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.PaisGetAll_Result)" />
           <EntitySet Name="Colonias" EntityType="LEscogidoNormalizacionModel.Colonia" />
@@ -245,6 +244,7 @@
           <FunctionImport Name="MunicipioGetByIdEstado" ReturnType="Collection(LEscogidoNormalizacionModel.MunicipioGetByIdEstado_Result)">
           <Parameter Name="IdEstado" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetAll_Result)" />
           <FunctionImport Name="UsuarioGetById" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetById_Result)">
             <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
@@ -269,14 +269,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="UsuarioGetAll_Result">
-          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="Edad" Nullable="false" />
-          <Property Type="Int32" Name="IdRol" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="RolGetAll_Result">
           <Property Type="Int32" Name="IdRol" Nullable="false" />
           <Property Type="String" Name="Tipo" Nullable="true" MaxLength="50" />
@@ -410,6 +402,16 @@
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
           <Property Type="Byte" Name="IdEstado" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="UsuarioGetAll_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Edad" Nullable="false" />
+          <Property Type="Int32" Name="IdRol" Nullable="true" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="IdColonia" Nullable="true" />
+        </ComplexType>
         <ComplexType Name="UsuarioGetById_Result">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
@@ -422,6 +424,8 @@
           <Property Type="String" Name="Calle" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="ColoniaNombre" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="MunicipioNombre" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="IdPais" Nullable="false" />
+          <Property Type="Byte" Name="IdEstado" Nullable="false" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -449,18 +453,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioGetAll">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.UsuarioGetAll_Result">
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="Edad" ColumnName="Edad" />
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="RolGetAll" FunctionName="LEscogidoNormalizacionModel.Store.RolGetAll">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.RolGetAll_Result">
@@ -550,6 +542,20 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.UsuarioGetAll_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UsuarioGetById" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioGetById">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.UsuarioGetById_Result">
@@ -564,6 +570,8 @@
                 <ScalarProperty Name="Calle" ColumnName="Calle" />
                 <ScalarProperty Name="ColoniaNombre" ColumnName="ColoniaNombre" />
                 <ScalarProperty Name="MunicipioNombre" ColumnName="MunicipioNombre" />
+                <ScalarProperty Name="IdPais" ColumnName="IdPais" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

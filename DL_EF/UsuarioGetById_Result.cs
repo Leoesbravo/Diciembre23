@@ -24,5 +24,7 @@ namespace DL_EF
         public string Calle { get; set; }
         public string ColoniaNombre { get; set; }
         public string MunicipioNombre { get; set; }
+        public byte IdPais { get; set; }
+        public byte IdEstado { get; set; }
     }
 }

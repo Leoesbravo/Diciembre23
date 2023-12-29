@@ -51,6 +51,14 @@ namespace PL_MVC.Controllers
                     Dictionary<string, object> resultEstado = BL.Estado.GetByIdPais(usuario.Direccion.Colonia.Municipio.Estado.Pais.IdPais);
                     ML.Estado estado = (ML.Estado)resultEstado["Estado"];
                     usuario.Direccion.Colonia.Municipio.Estado.Estados = estado.Estados;
+
+                    Dictionary<string, object> resultMunicipio = BL.Municipio.GetByIdEstado(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
+                    ML.Municipio municipio = (ML.Municipio)resultMunicipio["Municipio"];
+                    usuario.Direccion.Colonia.Municipio.Municipios = municipio.Municipios;
+
+                    Dictionary<string, object> resultColonia = BL.Colonia.GetByIdMunicipio(usuario.Direccion.Colonia.Municipio.IdMunicipio);
+                    ML.Colonia colonia = (ML.Colonia)resultColonia["Colonia"];
+                    usuario.Direccion.Colonia.Colonias = colonia.Colonias;
                 }
                 else
                 {
@@ -71,7 +79,12 @@ namespace PL_MVC.Controllers
                 usuario.Rol.Roles = rol.Roles;
 
                 ML.Pais pais = (ML.Pais)resultPais["Pais"];
-            
+                usuario.Direccion = new ML.Direccion();
+                usuario.Direccion.Colonia = new ML.Colonia();
+                usuario.Direccion.Colonia.Municipio = new ML.Municipio();
+                usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+                usuario.Direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
+               
                 usuario.Direccion.Colonia.Municipio.Estado.Pais.Paises = pais.Paises;
            
                 return View(usuario);
