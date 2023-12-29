@@ -67,10 +67,17 @@ namespace PL_MVC.Controllers
                     return PartialView("Modal");
                 }
             }
+            else
+            {
+                usuario.Direccion = new ML.Direccion();
+                usuario.Direccion.Colonia = new ML.Colonia();
+                usuario.Direccion.Colonia.Municipio = new ML.Municipio();
+                usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
+                usuario.Direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
+            }
             Dictionary<string, object> resultRol = BL.Rol.GetAll();
             Dictionary<string, object> resultPais = BL.Pais.GetAll();
 
-           // Dictionary<string, object> resultMunicipio = BL.Municipio.GetByIdEstado(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
             bool rolCorrect = (bool)resultRol["Resultado"];
             if (rolCorrect == true)
             {
@@ -78,13 +85,7 @@ namespace PL_MVC.Controllers
                 usuario.Rol = new ML.Rol();
                 usuario.Rol.Roles = rol.Roles;
 
-                ML.Pais pais = (ML.Pais)resultPais["Pais"];
-                usuario.Direccion = new ML.Direccion();
-                usuario.Direccion.Colonia = new ML.Colonia();
-                usuario.Direccion.Colonia.Municipio = new ML.Municipio();
-                usuario.Direccion.Colonia.Municipio.Estado = new ML.Estado();
-                usuario.Direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
-               
+                ML.Pais pais = (ML.Pais)resultPais["Pais"];                 
                 usuario.Direccion.Colonia.Municipio.Estado.Pais.Paises = pais.Paises;
            
                 return View(usuario);
