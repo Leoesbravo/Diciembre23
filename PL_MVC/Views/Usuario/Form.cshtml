@@ -9,8 +9,9 @@
 @using (Html.BeginForm("Form", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(model => model.IdUsuario)
+    @Html.HiddenFor(model => model.Imagen)
     <div class="row">
-  
+
         <div class="col-md-4">
             @Html.LabelFor(model => model.Nombre)
             <div class="input-group mb-3">
@@ -29,11 +30,11 @@
 
     </div>
     <div class="row">
-        <div class="col-md-4" >
+        <div class="col-md-4">
             @Html.LabelFor(model => model.Edad)
-            <div class="input-group mb-3" >
+            <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"><i class="fa-regular fa-calendar-days"></i></span>
-                @Html.TextBoxFor(model => model.Edad, new { @class = "form-control", @id="datepicker", @autocomplete="false" })
+                @Html.TextBoxFor(model => model.Edad, new { @class = "form-control", @id = "datepicker", @autocomplete = "false" })
             </div>
         </div>
         <div class="col-md-4">
@@ -44,10 +45,21 @@
             @Html.Label("Imagen")
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-camera"></i></span>
-                <input id="amd" type="file" class="form-control" onchange="validateFile(), readURL(this)" />
+                <input id="amd" type="file" name="amd" class="form-control" onchange="validateFile(), readURL(this)" />
             </div>
-            <img id="img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" height="150" width="150"/>
+            @if (Model.Imagen == null)
+            {
+                <img id="img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" height="150" width="150" />
+
+            }
+            else
+            {
+                <img src="data:image/*;base64,@Convert.ToBase64String(Model.Imagen)" height="150" width="150" />
+
+            }
         </div>
+        <input type="text" name="Nombre" />
+        @Html.TextBoxFor(model => model.Nombre)
     </div>
     <hr />
 

@@ -281,7 +281,8 @@ namespace BL
                                      ApellidoMaterno = Usuario.ApellidoMaterno,
                                      Edad = Usuario.Edad,
                                      IdRol = Rol.IdRol,
-                                     NombreRol = Rol.Tipo
+                                     NombreRol = Rol.Tipo,
+                                     Imagen = Usuario.IMAGEN
                                  }).ToList();
                     if (query != null)
                     {
@@ -296,6 +297,7 @@ namespace BL
                             user.ApellidoMaterno = registro.ApellidoMaterno;
                             user.ApellidoPaterno = registro.ApellidoPaterno;
                             user.Edad = registro.Edad;
+                            user.Imagen = registro.Imagen;
                             //siempre que quieran usar una propiedad de navegacion hay que 
                             //instanciarla
                             user.Rol = new ML.Rol();
@@ -331,12 +333,14 @@ namespace BL
                     usuarioEntity.ApellidoPaterno = usuario.ApellidoPaterno;
                     usuarioEntity.ApellidoMaterno = usuario.ApellidoMaterno;
                     usuarioEntity.Edad = usuario.Edad;
+                    usuarioEntity.IMAGEN = usuario.Imagen;
+                    usuarioEntity.IdRol = usuario.Rol.IdRol;
 
                     context.Usuarios.Add(usuarioEntity);
                     int filasAfectadas = context.SaveChanges();
                     if(filasAfectadas > 0)
                     {
-                       
+                        diccionario["Resultado"] = true;
                     }
                     else
                     {
@@ -353,5 +357,32 @@ namespace BL
             }
             return diccionario;
         }
+        public static Dictionary<string, object> AddEF(ML.Usuario usuario)
+        {
+            string exepcion = "";
+            Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Exepcion", exepcion }, { "Resultado", false } };
+            try
+            {
+                using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
+                {
+                    var registros = context.UsuarioAdd(usuario.Nombre, usuario.ApellidoPaterno, usuario.ApellidoMaterno, usuario.Edad, usuario.Direccion.Calle, usuario.Direccion.Colonia.IdColonia, usuario.Imagen);
+                    if (registros > 0)
+                    {
+                        diccionario["Resultado"] = true;
+                    }
+                    else
+                    {
+                        
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return diccionario;
+        }
+
     }
 }

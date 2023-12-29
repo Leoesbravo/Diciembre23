@@ -10,6 +10,10 @@
 </div>
 <div>
     <a href="@Url.Action("Form", "Usuario")" class="btn btn-success">Agregar</a>
+    @Html.TextBoxFor(model => model.Nombre, new {@class="form-control"})
+    @Html.TextBoxFor(model => model.ApellidoPaterno, new {@class="form-control"})
+    <input  type="submit" value="Buscar" class="btn btn-dark"/>
+    enviar esta informacion al controlador
 </div>
 @if (Model == null)
 {
@@ -24,7 +28,7 @@ else
             <thead class="table-secondary">
                 <tr class="text-center">
                     <th>Editar</th>
-                    <th>Id Usuario</th>
+                    <th>Imagen</th>
                     <th><i class="fa-solid fa-circle-user" style="color: #000000;"></i> Nombre</th>
                     <th>Edad</th>
                     <th>Eliminar</th>
@@ -34,11 +38,18 @@ else
                 @foreach (ML.Usuario usuario in Model.Usuarios)
                 {
                     <tr>
-                        <td><a href="@Url.Action("Form","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-warning"><i class="fa-regular fa-pen-to-square" style="color: #000000;"></i></a></td>
-                        <td>@usuario.IdUsuario</td>
-                        <td>@usuario.Nombre @usuario.ApellidoPaterno</td>
-                        <td>@usuario.Edad</td>
-                        <td class="text-center"><a href="@Url.Action("Delete","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-danger"><i class="bi bi-trash" style="color:black"></i></a></td>
+                        <td class="text-center"><a href="@Url.Action("Form","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-warning"><i class="fa-regular fa-pen-to-square" style="color: #000000;"></i></a></td>
+                        @if (usuario.Imagen == null)
+                        {
+                            <td><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" height="50" width="50"/></td>
+                        }
+                        else
+                        {
+                            <td><img src="data:image/*;base64,@Convert.ToBase64String(usuario.Imagen)" height="50" width="50" /></td>
+                        }
+                        <td class="text-center">@usuario.Nombre @usuario.ApellidoPaterno</td>
+                        <td class="text-center">@usuario.Edad</td>
+                        <td class="text-center"><a href="@Url.Action("Delete","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-danger"><i class="bi bi-trash" style="color:white"></i></a></td>
                     </tr>
                 }
             </tbody>

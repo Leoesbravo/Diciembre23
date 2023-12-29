@@ -63,6 +63,7 @@
           <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
           <Property Name="Edad" Type="int" Nullable="false" />
           <Property Name="IdRol" Type="int" />
+          <Property Name="IMAGEN" Type="varbinary(max)" />
         </EntityType>
         <Association Name="FK__Colonia__IdMunic__46E78A0C">
           <End Role="Municipio" Type="Self.Municipio" Multiplicity="0..1" />
@@ -147,6 +148,15 @@
         </Function>
         <Function Name="PaisGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="RolGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="UsuarioAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
+          <Parameter Name="Edad" Type="int" Mode="In" />
+          <Parameter Name="Calle" Type="varchar" Mode="In" />
+          <Parameter Name="IdColonia" Type="int" Mode="In" />
+          <Parameter Name="Imagen" Type="varbinary(max)" Mode="In" />
+        </Function>
         <Function Name="UsuarioGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="UsuarioGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdUsuario" Type="int" Mode="In" />
@@ -188,26 +198,8 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LEscogidoNormalizacionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Usuario">
-          <Key>
-            <PropertyRef Name="IdUsuario" />
-          </Key>
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Edad" Type="Int32" Nullable="false" />
-          <Property Name="IdRol" Type="Int32" />
-          <NavigationProperty Name="Rol" Relationship="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC" FromRole="Usuario" ToRole="Rol" />
-          <NavigationProperty Name="Direccions" Relationship="LEscogidoNormalizacionModel.FK__Direccion__IdUsu__4CA06362" FromRole="Usuario" ToRole="Direccion" />
-        </EntityType>
         <EntityContainer Name="LEscogidoNormalizacionEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
           <EntitySet Name="Rols" EntityType="LEscogidoNormalizacionModel.Rol" />
-          <AssociationSet Name="FK__Usuario__IdRol__286302EC" Association="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC">
-            <End Role="Rol" EntitySet="Rols" />
-            <End Role="Usuario" EntitySet="Usuarios" />
-          </AssociationSet>
           <FunctionImport Name="RolGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.RolGetAll_Result)" />
           <FunctionImport Name="PaisGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.PaisGetAll_Result)" />
           <EntitySet Name="Colonias" EntityType="LEscogidoNormalizacionModel.Colonia" />
@@ -221,10 +213,6 @@
           </AssociationSet>
           <AssociationSet Name="FK__Direccion__IdCol__4D94879B" Association="LEscogidoNormalizacionModel.FK__Direccion__IdCol__4D94879B">
             <End Role="Colonia" EntitySet="Colonias" />
-            <End Role="Direccion" EntitySet="Direccions" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Direccion__IdUsu__4CA06362" Association="LEscogidoNormalizacionModel.FK__Direccion__IdUsu__4CA06362">
-            <End Role="Usuario" EntitySet="Usuarios" />
             <End Role="Direccion" EntitySet="Direccions" />
           </AssociationSet>
           <AssociationSet Name="FK__Estado__IdPais__412EB0B6" Association="LEscogidoNormalizacionModel.FK__Estado__IdPais__412EB0B6">
@@ -244,10 +232,28 @@
           <FunctionImport Name="MunicipioGetByIdEstado" ReturnType="Collection(LEscogidoNormalizacionModel.MunicipioGetByIdEstado_Result)">
           <Parameter Name="IdEstado" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetAll_Result)" />
           <FunctionImport Name="UsuarioGetById" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetById_Result)">
-            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="Usuarios" EntityType="LEscogidoNormalizacionModel.Usuario" />
+          <AssociationSet Name="FK__Direccion__IdUsu__4CA06362" Association="LEscogidoNormalizacionModel.FK__Direccion__IdUsu__4CA06362">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Direccion" EntitySet="Direccions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__IdRol__286302EC" Association="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC">
+            <End Role="Rol" EntitySet="Rols" />
+            <End Role="Usuario" EntitySet="Usuarios" />
+          </AssociationSet>
+          <FunctionImport Name="UsuarioAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="Edad" Mode="In" Type="Int32" />
+            <Parameter Name="Calle" Mode="In" Type="String" />
+            <Parameter Name="IdColonia" Mode="In" Type="Int32" />
+            <Parameter Name="Imagen" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetAll_Result)" />
         </EntityContainer>
         <EntityType Name="Rol">
           <Key>
@@ -257,18 +263,6 @@
           <Property Name="Tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Usuarios" Relationship="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC" FromRole="Rol" ToRole="Usuario" />
         </EntityType>
-        <Association Name="FK__Usuario__IdRol__286302EC">
-          <End Type="LEscogidoNormalizacionModel.Rol" Role="Rol" Multiplicity="0..1" />
-          <End Type="LEscogidoNormalizacionModel.Usuario" Role="Usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Rol">
-              <PropertyRef Name="IdRol" />
-            </Principal>
-            <Dependent Role="Usuario">
-              <PropertyRef Name="IdRol" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <ComplexType Name="RolGetAll_Result">
           <Property Type="Int32" Name="IdRol" Nullable="false" />
           <Property Type="String" Name="Tipo" Nullable="true" MaxLength="50" />
@@ -351,18 +345,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Direccion__IdUsu__4CA06362">
-          <End Type="LEscogidoNormalizacionModel.Usuario" Role="Usuario" Multiplicity="0..1" />
-          <End Type="LEscogidoNormalizacionModel.Direccion" Role="Direccion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="IdUsuario" />
-            </Principal>
-            <Dependent Role="Direccion">
-              <PropertyRef Name="IdUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Estado__IdPais__412EB0B6">
           <End Type="LEscogidoNormalizacionModel.Pai" Role="Pai" Multiplicity="0..1" />
           <End Type="LEscogidoNormalizacionModel.Estado" Role="Estado" Multiplicity="*" />
@@ -402,16 +384,6 @@
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
           <Property Type="Byte" Name="IdEstado" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="UsuarioGetAll_Result">
-          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="Edad" Nullable="false" />
-          <Property Type="Int32" Name="IdRol" Nullable="true" />
-          <Property Type="String" Name="Calle" Nullable="true" MaxLength="50" />
-          <Property Type="Byte" Name="IdColonia" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="UsuarioGetById_Result">
           <Property Type="Int32" Name="IdUsuario" Nullable="false" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
@@ -427,24 +399,61 @@
           <Property Type="Byte" Name="IdPais" Nullable="false" />
           <Property Type="Byte" Name="IdEstado" Nullable="false" />
         </ComplexType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Edad" Type="Int32" Nullable="false" />
+          <Property Name="IdRol" Type="Int32" />
+          <Property Name="IMAGEN" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Direccions" Relationship="LEscogidoNormalizacionModel.FK__Direccion__IdUsu__4CA06362" FromRole="Usuario" ToRole="Direccion" />
+          <NavigationProperty Name="Rol" Relationship="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC" FromRole="Usuario" ToRole="Rol" />
+        </EntityType>
+        <Association Name="FK__Direccion__IdUsu__4CA06362">
+          <End Type="LEscogidoNormalizacionModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="LEscogidoNormalizacionModel.Direccion" Role="Direccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Direccion">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Usuario__IdRol__286302EC">
+          <End Type="LEscogidoNormalizacionModel.Rol" Role="Rol" Multiplicity="0..1" />
+          <End Type="LEscogidoNormalizacionModel.Usuario" Role="Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="IdRol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="UsuarioGetAll_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Edad" Nullable="false" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+          <Property Type="Int32" Name="IdRol" Nullable="true" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="IdColonia" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="LEscogidoNormalizacionModelStoreContainer" CdmEntityContainer="LEscogidoNormalizacionEntities">
-          <EntitySetMapping Name="Usuarios">
-            <EntityTypeMapping TypeName="LEscogidoNormalizacionModel.Usuario">
-              <MappingFragment StoreEntitySet="Usuario">
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="Edad" ColumnName="Edad" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Rols">
             <EntityTypeMapping TypeName="LEscogidoNormalizacionModel.Rol">
               <MappingFragment StoreEntitySet="Rol">
@@ -542,20 +551,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioGetAll">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.UsuarioGetAll_Result">
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="Edad" ColumnName="Edad" />
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-                <ScalarProperty Name="Calle" ColumnName="Calle" />
-                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UsuarioGetById" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioGetById">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.UsuarioGetById_Result">
@@ -572,6 +567,35 @@
                 <ScalarProperty Name="MunicipioNombre" ColumnName="MunicipioNombre" />
                 <ScalarProperty Name="IdPais" ColumnName="IdPais" />
                 <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="LEscogidoNormalizacionModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioAdd" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioAdd" />
+          <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.UsuarioGetAll_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

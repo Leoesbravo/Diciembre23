@@ -15,15 +15,20 @@ namespace PL_MVC.Controllers
     public class UsuarioController : Controller
     {
         [HttpGet]
-        public ActionResult GetAll()
+        public ActionResult GetAll(ML.Usuario usuario) //una cosita)
         {
-            Dictionary<string, object> result = BL.Usuario.GetAllLINQ();
+            if (usuario == null)
+            {
+                // 1 linea de codigo
+            }
+
+            Dictionary<string, object> result = BL.Usuario.GetAllLINQ(usuario);
             //unboxing
             bool resultado = (bool)result["Resultado"];
 
             if (resultado == true)
             {
-                ML.Usuario usuario = (ML.Usuario)result["Usuario"];
+                usuario = (ML.Usuario)result["Usuario"];
                 return View(usuario);
             }
             else
@@ -33,7 +38,10 @@ namespace PL_MVC.Controllers
                 return View();
             }
 
+
+
         }
+
         //mostrar el formulario
         //tipos de datos nullables
         [HttpGet]
@@ -85,9 +93,9 @@ namespace PL_MVC.Controllers
                 usuario.Rol = new ML.Rol();
                 usuario.Rol.Roles = rol.Roles;
 
-                ML.Pais pais = (ML.Pais)resultPais["Pais"];                 
+                ML.Pais pais = (ML.Pais)resultPais["Pais"];
                 usuario.Direccion.Colonia.Municipio.Estado.Pais.Paises = pais.Paises;
-           
+
                 return View(usuario);
             }
             else
@@ -116,7 +124,7 @@ namespace PL_MVC.Controllers
             }
             else
             {
-                Dictionary<string, object> result = BL.Usuario.AddLINQ(usuario);
+                Dictionary<string, object> result = BL.Usuario.AddEF(usuario);
                 bool resultado = (bool)result["Resultado"];
 
                 if (resultado == true)
@@ -143,7 +151,7 @@ namespace PL_MVC.Controllers
         {
             return View();
         }
-        public JsonResult  EstadoGetByIdPais(int idPais)
+        public JsonResult EstadoGetByIdPais(int idPais)
         {
             Dictionary<string, object> resultado = BL.Estado.GetByIdPais(idPais);
             ML.Estado estado = (ML.Estado)resultado["Estado"];

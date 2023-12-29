@@ -27,13 +27,13 @@ namespace DL_EF
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Rol> Rols { get; set; }
         public virtual DbSet<Colonia> Colonias { get; set; }
         public virtual DbSet<Direccion> Direccions { get; set; }
         public virtual DbSet<Estado> Estadoes { get; set; }
         public virtual DbSet<Municipio> Municipios { get; set; }
         public virtual DbSet<Pai> Pais { get; set; }
+        public virtual DbSet<Usuario> Usuarios { get; set; }
     
         public virtual ObjectResult<RolGetAll_Result> RolGetAll()
         {
@@ -72,11 +72,6 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<MunicipioGetByIdEstado_Result>("MunicipioGetByIdEstado", idEstadoParameter);
         }
     
-        public virtual ObjectResult<UsuarioGetAll_Result> UsuarioGetAll()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll");
-        }
-    
         public virtual ObjectResult<UsuarioGetById_Result> UsuarioGetById(Nullable<int> idUsuario)
         {
             var idUsuarioParameter = idUsuario.HasValue ?
@@ -84,6 +79,44 @@ namespace DL_EF
                 new ObjectParameter("IdUsuario", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetById_Result>("UsuarioGetById", idUsuarioParameter);
+        }
+    
+        public virtual int UsuarioAdd(string nombre, string apellidoPaterno, string apellidoMaterno, Nullable<int> edad, string calle, Nullable<int> idColonia, byte[] imagen)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var apellidoPaternoParameter = apellidoPaterno != null ?
+                new ObjectParameter("ApellidoPaterno", apellidoPaterno) :
+                new ObjectParameter("ApellidoPaterno", typeof(string));
+    
+            var apellidoMaternoParameter = apellidoMaterno != null ?
+                new ObjectParameter("ApellidoMaterno", apellidoMaterno) :
+                new ObjectParameter("ApellidoMaterno", typeof(string));
+    
+            var edadParameter = edad.HasValue ?
+                new ObjectParameter("Edad", edad) :
+                new ObjectParameter("Edad", typeof(int));
+    
+            var calleParameter = calle != null ?
+                new ObjectParameter("Calle", calle) :
+                new ObjectParameter("Calle", typeof(string));
+    
+            var idColoniaParameter = idColonia.HasValue ?
+                new ObjectParameter("IdColonia", idColonia) :
+                new ObjectParameter("IdColonia", typeof(int));
+    
+            var imagenParameter = imagen != null ?
+                new ObjectParameter("Imagen", imagen) :
+                new ObjectParameter("Imagen", typeof(byte[]));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UsuarioAdd", nombreParameter, apellidoPaternoParameter, apellidoMaternoParameter, edadParameter, calleParameter, idColoniaParameter, imagenParameter);
+        }
+    
+        public virtual ObjectResult<UsuarioGetAll_Result> UsuarioGetAll()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll");
         }
     }
 }
