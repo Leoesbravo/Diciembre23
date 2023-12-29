@@ -101,6 +101,12 @@ namespace PL_MVC.Controllers
         [HttpPost]
         public ActionResult Form(ML.Usuario usuario)
         {
+            HttpPostedFileBase file = Request.Files["amd"];
+            if (file != null)
+            {
+                usuario.Imagen = ConvertToBytes(file);
+            }
+
             if (usuario.IdUsuario > 0)
             {
                 //llamar al update
@@ -141,6 +147,14 @@ namespace PL_MVC.Controllers
             Dictionary<string, object> resultado = BL.Estado.GetByIdPais(idPais);
             ML.Estado estado = (ML.Estado)resultado["Estado"];
             return Json(estado.Estados, JsonRequestBehavior.AllowGet);
+        }
+        public byte[] ConvertToBytes(HttpPostedFileBase Foto)
+        {
+            byte[] data = null;
+            System.IO.BinaryReader reader = new System.IO.BinaryReader(Foto.InputStream);
+            data = reader.ReadBytes((int)Foto.ContentLength);
+
+            return data;
         }
     }
 }

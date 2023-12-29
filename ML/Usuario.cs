@@ -25,6 +25,7 @@ namespace ML
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
         public int Edad { get; set; }
+        public byte[] Imagen { get; set; }
         public List<Usuario> Usuarios { get; set; }
 
         //Propiedad de navegacion
