@@ -203,9 +203,6 @@
         </EntityType>
         <EntityContainer Name="LEscogidoNormalizacionEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Usuarios" EntityType="Self.Usuario" />
-          <FunctionImport Name="UsuarioGetById" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetById_Result)">
-          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="Rols" EntityType="LEscogidoNormalizacionModel.Rol" />
           <AssociationSet Name="FK__Usuario__IdRol__286302EC" Association="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC">
             <End Role="Rol" EntitySet="Rols" />
@@ -240,22 +237,18 @@
             <End Role="Municipio" EntitySet="Municipios" />
           </AssociationSet>
           <FunctionImport Name="ColoniaGetByIdMunicipio" ReturnType="Collection(LEscogidoNormalizacionModel.ColoniaGetByIdMunicipio_Result)">
-            <Parameter Name="IdMunicipio" Mode="In" Type="Int32" />
+          <Parameter Name="IdMunicipio" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="EstadoGetByIdPais" ReturnType="Collection(LEscogidoNormalizacionModel.EstadoGetByIdPais_Result)">
-            <Parameter Name="IdPais" Mode="In" Type="Int32" />
+          <Parameter Name="IdPais" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="MunicipioGetByIdEstado" ReturnType="Collection(LEscogidoNormalizacionModel.MunicipioGetByIdEstado_Result)">
-            <Parameter Name="IdEstado" Mode="In" Type="Int32" />
+          <Parameter Name="IdEstado" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioGetById" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetById_Result)">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
-        <ComplexType Name="UsuarioGetById_Result">
-          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="Edad" Nullable="false" />
-        </ComplexType>
         <EntityType Name="Rol">
           <Key>
             <PropertyRef Name="IdRol" />
@@ -417,6 +410,19 @@
           <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
           <Property Type="Byte" Name="IdEstado" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="UsuarioGetById_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Edad" Nullable="false" />
+          <Property Type="Int32" Name="IdRol" Nullable="true" />
+          <Property Type="Byte" Name="IdColonia" Nullable="false" />
+          <Property Type="Byte" Name="IdMunicipio" Nullable="false" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ColoniaNombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="MunicipioNombre" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -435,17 +441,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="UsuarioGetById" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioGetById">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.UsuarioGetById_Result">
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="Edad" ColumnName="Edad" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Rols">
             <EntityTypeMapping TypeName="LEscogidoNormalizacionModel.Rol">
               <MappingFragment StoreEntitySet="Rol">
@@ -552,6 +547,23 @@
                 <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioGetById" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioGetById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.UsuarioGetById_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+                <ScalarProperty Name="IdMunicipio" ColumnName="IdMunicipio" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="ColoniaNombre" ColumnName="ColoniaNombre" />
+                <ScalarProperty Name="MunicipioNombre" ColumnName="MunicipioNombre" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

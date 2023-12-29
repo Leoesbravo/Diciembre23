@@ -11,26 +11,26 @@
     @Html.HiddenFor(model => model.IdUsuario)
     <div class="row">
 
-    <div class="col-md-4">
-        @Html.LabelFor(model => model.Nombre)
-        <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-circle-user" style="color: #000000;"></i></span>
-            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Nombre)
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-circle-user" style="color: #000000;"></i></span>
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+            </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        @Html.LabelFor(model => model.ApellidoPaterno)
-        @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
-    </div>
-    <div class="col-md-4">
-        @Html.LabelFor(model => model.ApellidoMaterno)
-        @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
-    </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.ApellidoPaterno)
+            @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.ApellidoMaterno)
+            @Html.TextBoxFor(model => model.ApellidoMaterno, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+        </div>
     </div>
     <div class="row">
         <div class="col-md-4">
             @Html.LabelFor(model => model.Edad)
-            @Html.TextBoxFor(model => model.Edad, new { @class = "form-control" })
+            @Html.TextBoxFor(model => model.Edad, new { @class = "form-control", @id = "datepicker" })
         </div>
         <div class="col-md-4">
             @Html.LabelFor(model => model.Rol.IdRol)
@@ -77,7 +77,9 @@
     </div>
 
 }
+
 @Scripts.Render("~/bundles/jquery")
+
 <script type="text/javascript">
      $(document).ready(function () {
          $("#ddlPais").change(function () {
@@ -104,5 +106,9 @@
                 });
 
             });
+    $(function () {
+        $("#datepicker").datepicker("option", "showAnim","clip");
+
+    });
 </script>
 

@@ -175,6 +175,17 @@ namespace BL
                         usuario.ApellidoPaterno = objeto.ApellidoPaterno;
                         usuario.Edad = objeto.Edad;
 
+                        usuario.Direccion = new ML.Direccion();
+                        usuario.Direccion.Calle = objeto.Calle;
+
+                        usuario.Direccion.Colonia = new ML.Colonia();
+                        usuario.Direccion.Colonia.IdColonia = objeto.IdColonia;
+                        usuario.Direccion.Colonia.Nombre = objeto.ColoniaNombre;
+
+                        usuario.Direccion.Colonia.Municipio = new ML.Municipio();
+                        usuario.Direccion.Colonia.Municipio.IdMunicipio = objeto.IdMunicipio;
+                        usuario.Direccion.Colonia.Municipio.Nombre = objeto.MunicipioNombre;
+
                         diccionario["Resultado"] = true;
                         diccionario["Usuario"] = usuario;
                     }

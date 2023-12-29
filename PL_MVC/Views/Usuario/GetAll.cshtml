@@ -19,50 +19,75 @@
 }
 else
 {
-    <table class="table table-dark table-hover">
-        <thead class="table-secondary">
-            <tr class="text-center">
-                <th>Editar</th>
-                <th>Id Usuario</th>
-                <th><i class="fa-solid fa-circle-user" style="color: #000000;"></i> Nombre</th>
-                <th>Edad</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (ML.Usuario usuario in Model.Usuarios)
-            {
-                <tr>
-                    <td><a href="@Url.Action("Form","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-warning"><i class="fa-regular fa-pen-to-square" style="color: #000000;"></i></a></td>
-                    <td>@usuario.IdUsuario</td>
-                    <td>@usuario.Nombre @usuario.ApellidoPaterno</td>
-                    <td>@usuario.Edad</td>
-                    <td class="text-center"><a href="@Url.Action("Delete","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-danger"><i class="bi bi-trash" style="color:black"></i></a></td>
+    <div class="table-responsive">
+        <table class="table table-dark table-hover" id="tabla">
+            <thead class="table-secondary">
+                <tr class="text-center">
+                    <th>Editar</th>
+                    <th>Id Usuario</th>
+                    <th><i class="fa-solid fa-circle-user" style="color: #000000;"></i> Nombre</th>
+                    <th>Edad</th>
+                    <th>Eliminar</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (ML.Usuario usuario in Model.Usuarios)
+                {
+                    <tr>
+                        <td><a href="@Url.Action("Form","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-warning"><i class="fa-regular fa-pen-to-square" style="color: #000000;"></i></a></td>
+                        <td>@usuario.IdUsuario</td>
+                        <td>@usuario.Nombre @usuario.ApellidoPaterno</td>
+                        <td>@usuario.Edad</td>
+                        <td class="text-center"><a href="@Url.Action("Delete","Usuario", new {IdUsuario = usuario.IdUsuario} )" class="btn btn-danger"><i class="bi bi-trash" style="color:black"></i></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.material.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#tabla').DataTable({
+            searching: false,
+            "lengthMenu": [[1, 2, 3, 20, -1], [5, 10, 15, 20, "All"]],
+            autoWidth: false,
+            columnDefs: [
+                {
+                    targets: ['_all'],
+                    className: 'mdc-data-table__cell',
+                },
+            ],
+            language: {
+                url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+            },
+
+        });
+    });
+</script>
 @*<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">AVISO</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <a href="@Url.Action("GetAll","Usuario")" class="btn btn-success">Vale</a>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">AVISO</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <a href="@Url.Action("GetAll","Usuario")" class="btn btn-success">Vale</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
-        myModal.show();
-    });
-</script>*@
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            myModal.show();
+        });
+    </script>*@
