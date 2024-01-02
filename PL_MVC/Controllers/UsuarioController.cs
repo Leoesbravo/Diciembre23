@@ -15,14 +15,11 @@ namespace PL_MVC.Controllers
     public class UsuarioController : Controller
     {
         [HttpGet]
-        public ActionResult GetAll(ML.Usuario usuario) //una cosita)
+        public ActionResult GetAll(ML.Usuario usuario)
         {
-            if (usuario == null)
-            {
-                // 1 linea de codigo
-            }
 
-            Dictionary<string, object> result = BL.Usuario.GetAllLINQ(usuario);
+
+            Dictionary<string, object> result = BL.Usuario.GetAllEF(usuario);
             //unboxing
             bool resultado = (bool)result["Resultado"];
 
@@ -37,8 +34,6 @@ namespace PL_MVC.Controllers
                 string exepcion = (string)result["Exepcion"];
                 return View();
             }
-
-
 
         }
 
@@ -110,36 +105,51 @@ namespace PL_MVC.Controllers
         [HttpPost]
         public ActionResult Form(ML.Usuario usuario)
         {
-            HttpPostedFileBase file = Request.Files["amd"];
-            if (file != null)
+            if(ModelState.IsValid )
             {
-                usuario.Imagen = ConvertToBytes(file);
-            }
-
-            if (usuario.IdUsuario > 0)
-            {
-                //llamar al update
-                ViewBag.Mensaje = "Se ha actualizado el registro";
-                return PartialView("Modal");
-            }
-            else
-            {
-                Dictionary<string, object> result = BL.Usuario.AddEF(usuario);
-                bool resultado = (bool)result["Resultado"];
-
-                if (resultado == true)
+                HttpPostedFileBase file = Request.Files["amd"];
+                if (file != null)
                 {
-                    ViewBag.Mensaje = "El Usuario ha sido insertado";
+                    usuario.Imagen = ConvertToBytes(file);
+                }
+
+                if (usuario.IdUsuario > 0)
+                {
+                    //llamar al update
+                    ViewBag.Mensaje = "Se ha actualizado el registro";
                     return PartialView("Modal");
                 }
                 else
                 {
-                    //pendiente la alerta               
-                    string exepcion = (string)result["Exepcion"];
-                    ViewBag.Mensaje = "El Usuario no se pudo registrar " + exepcion;
-                    return PartialView("Modal");
+                    Dictionary<string, object> result = BL.Usuario.AddEF(usuario);
+                    bool resultado = (bool)result["Resultado"];
+
+                    if (resultado == true)
+                    {
+                        ViewBag.Mensaje = "El Usuario ha sido insertado";
+                        return PartialView("Modal");
+                    }
+                    else
+                    {
+                        //pendiente la alerta               
+                        string exepcion = (string)result["Exepcion"];
+                        ViewBag.Mensaje = "El Usuario no se pudo registrar " + exepcion;
+                        return PartialView("Modal");
+                    }
                 }
             }
+            else
+            {
+                Dictionary<string, object> resultRol = BL.Rol.GetAll();
+                Dictionary<string, object> resultPais = BL.Pais.GetAll();
+                ML.Rol rol = (ML.Rol)resultRol["Rol"];
+                usuario.Rol.Roles = rol.Roles;
+
+                ML.Pais pais = (ML.Pais)resultPais["Pais"];
+                usuario.Direccion.Colonia.Municipio.Estado.Pais.Paises = pais.Paises;
+                return View(usuario);
+            }
+
 
         }
         [HttpGet]

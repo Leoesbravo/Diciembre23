@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +22,11 @@ namespace ML
             Edad = edad;
         }
         public int IdUsuario { get; set; }
+        [Required(ErrorMessage ="El nombre no puede estar vacio")]
         public string Nombre { get; set; }
+        [Required]
         public string ApellidoPaterno { get; set; }
+        [StringLength(10)]
         public string ApellidoMaterno { get; set; }
         public int Edad { get; set; }
         public byte[] Imagen { get; set; }

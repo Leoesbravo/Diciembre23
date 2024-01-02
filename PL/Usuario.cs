@@ -43,39 +43,39 @@ namespace PL
             // Agregar(nombre, apellidoPaterno, apellidoMaterno)
         }
         //toda la informacion
-        public static void GetAll()
-        {
-            ML.Usuario usuario = BL.Usuario.GetAllEF();
-            foreach (ML.Usuario user in usuario.Usuarios)
-            {
-                Console.WriteLine("Nombre:" + user.Nombre);
-                Console.WriteLine("Nombre:" + user.IdUsuario);
-                Console.WriteLine("Nombre:" + user.ApellidoPaterno);
-                Console.WriteLine("Nombre:" + user.Edad);
-                //se va a crear la instancia de la prop de navegacion solamente
-                //la primera vez que la vayan a utilizar
-                Console.WriteLine("Nombre:" + user.Rol.IdRol);
-                Console.WriteLine("-------------------------------");
-            }
-            Console.ReadKey();
-            //llamar al BL(metodo para recuperar la informacion)
-        }
-        public static void GetById()
-        {
-            Console.WriteLine("Ingrese el id del usuario que quiere consultar");
-            int idUsuario = int.Parse(Console.ReadLine());
+        //public static void GetAll()
+        //{
+        //    ML.Usuario usuario = BL.Usuario.GetAllEF();
+        //    foreach (ML.Usuario user in usuario.Usuarios)
+        //    {
+        //        Console.WriteLine("Nombre:" + user.Nombre);
+        //        Console.WriteLine("Nombre:" + user.IdUsuario);
+        //        Console.WriteLine("Nombre:" + user.ApellidoPaterno);
+        //        Console.WriteLine("Nombre:" + user.Edad);
+        //        //se va a crear la instancia de la prop de navegacion solamente
+        //        //la primera vez que la vayan a utilizar
+        //        Console.WriteLine("Nombre:" + user.Rol.IdRol);
+        //        Console.WriteLine("-------------------------------");
+        //    }
+        //    Console.ReadKey();
+        //    //llamar al BL(metodo para recuperar la informacion)
+        //}
+        //public static void GetById()
+        //{
+        //    Console.WriteLine("Ingrese el id del usuario que quiere consultar");
+        //    int idUsuario = int.Parse(Console.ReadLine());
 
-            ML.Usuario user = BL.Usuario.GetByIdEF(idUsuario);
+        //    ML.Usuario user = BL.Usuario.GetByIdEF(idUsuario);
 
-            Console.WriteLine("Nombre:" + user.Nombre);
-            Console.WriteLine("Nombre:" + user.IdUsuario);
-            Console.WriteLine("Nombre:" + user.ApellidoPaterno);
-            Console.WriteLine("Nombre:" + user.Edad);
-            Console.WriteLine("-------------------------------");
+        //    Console.WriteLine("Nombre:" + user.Nombre);
+        //    Console.WriteLine("Nombre:" + user.IdUsuario);
+        //    Console.WriteLine("Nombre:" + user.ApellidoPaterno);
+        //    Console.WriteLine("Nombre:" + user.Edad);
+        //    Console.WriteLine("-------------------------------");
 
-            Console.ReadKey();
-            //llamar al BL(metodo para recuperar la informacion)
-        }
+        //    Console.ReadKey();
+        //    //llamar al BL(metodo para recuperar la informacion)
+        //}
 
     }
 }

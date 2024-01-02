@@ -210,14 +210,16 @@ namespace BL
             }
             return diccionario;
         }
-        public static ML.Usuario GetAllEF()
+        public static Dictionary<string, object> GetAllEF(ML.Usuario usuario)
         {
-            ML.Usuario usuario = new ML.Usuario();
+            string exepcion = "";
+            Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Usuario", usuario }, { "Exepcion", exepcion }, { "Resultado", false } };
+
             try
             {
                 using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
                 {
-                    var registros = context.UsuarioGetAll().ToList();
+                    var registros = context.UsuarioGetAll(usuario.Nombre, usuario.ApellidoPaterno).ToList();
                     if (registros != null)
                     {
                         usuario.Usuarios = new List<ML.Usuario>();
@@ -238,6 +240,8 @@ namespace BL
 
                             usuario.Usuarios.Add(user);
                         }
+                        diccionario["Resultado"] = true;
+                        diccionario["Usuario"] = usuario;
                     }
                     else
                     {
@@ -248,9 +252,10 @@ namespace BL
             }
             catch (Exception ex)
             {
-
+                diccionario["Resultado"] = false;
+                diccionario["Exepcion"] = ex.Message;
             }
-            return usuario;
+            return diccionario;
         }
 
         //LINQ--.NET(C#, Visual Basic)

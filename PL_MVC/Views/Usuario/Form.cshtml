@@ -17,7 +17,9 @@
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-circle-user" style="color: #000000;"></i></span>
                 @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+
             </div>
+            @Html.ValidationMessageFor(model => model.Nombre)
         </div>
         <div class="col-md-4">
             @Html.LabelFor(model => model.ApellidoPaterno)
@@ -46,7 +48,8 @@
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-camera"></i></span>
                 <input id="amd" type="file" name="amd" class="form-control" onchange="validateFile(), readURL(this)" />
-            </div>
+            </div>Value cannot be null.
+            Parameter name: items'
             @if (Model.Imagen == null)
             {
                 <img id="img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" height="150" width="150" />
@@ -58,8 +61,6 @@
 
             }
         </div>
-        <input type="text" name="Nombre" />
-        @Html.TextBoxFor(model => model.Nombre)
     </div>
     <hr />
 
