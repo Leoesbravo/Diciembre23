@@ -11,7 +11,12 @@
 <div>
 
     <a href="@Url.Action("Form", "Usuario")" class="btn btn-success">Agregar</a>
-
+    @using (Html.BeginForm("GetAll", "Usuario", FormMethod.Get, new { enctype = "multipart/form-data" }))
+    {
+        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control" })
+        @Html.TextBoxFor(model => model.ApellidoPaterno, new { @class = "form-control" })
+        <input type="submit" class="btn btn-dark" value="Buscar"/>
+    }
     </div>
 @if (Model == null)
 {

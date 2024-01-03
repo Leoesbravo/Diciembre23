@@ -17,7 +17,15 @@ namespace PL_MVC.Controllers
         [HttpGet]
         public ActionResult GetAll(ML.Usuario usuario)
         {
+            if (usuario.Nombre == null)
+            {
+                usuario.Nombre = "";
 
+            }
+            if (usuario.ApellidoPaterno == null)
+            {
+                usuario.ApellidoPaterno = "";
+            }
 
             Dictionary<string, object> result = BL.Usuario.GetAllEF(usuario);
             //unboxing
@@ -51,11 +59,11 @@ namespace PL_MVC.Controllers
                 if (resultado == true)
                 {
                     usuario = (ML.Usuario)result["Usuario"];
-                    Dictionary<string, object> resultEstado = BL.Estado.GetByIdPais(usuario.Direccion.Colonia.Municipio.Estado.Pais.IdPais);
+                    Dictionary<string, object> resultEstado = BL.Estado.GetByIdPais(usuario.Direccion.Colonia.Municipio.Estado.Pais.IdPais.Value);
                     ML.Estado estado = (ML.Estado)resultEstado["Estado"];
                     usuario.Direccion.Colonia.Municipio.Estado.Estados = estado.Estados;
 
-                    Dictionary<string, object> resultMunicipio = BL.Municipio.GetByIdEstado(usuario.Direccion.Colonia.Municipio.Estado.IdEstado);
+                    Dictionary<string, object> resultMunicipio = BL.Municipio.GetByIdEstado(usuario.Direccion.Colonia.Municipio.Estado.IdEstado.Value);
                     ML.Municipio municipio = (ML.Municipio)resultMunicipio["Municipio"];
                     usuario.Direccion.Colonia.Municipio.Municipios = municipio.Municipios;
 

@@ -16,10 +16,12 @@
             @Html.LabelFor(model => model.Nombre)
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-circle-user" style="color: #000000;"></i></span>
-                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder = "Ejemplo: Luis" })
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @placeholder = "Ejemplo: Luis", @onkeyup = "soloLetras(this,'lblNombre')" })
 
             </div>
-            @Html.ValidationMessageFor(model => model.Nombre)
+            <label id="lblNombre" style="color:red"></label>
+            @Html.ValidationMessageFor(model => model.Nombre, "", new { @id = "lblNombre", @style = "Color: red" })
+
         </div>
         <div class="col-md-4">
             @Html.LabelFor(model => model.ApellidoPaterno)
@@ -48,8 +50,7 @@
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1"><i class="fa-solid fa-camera"></i></span>
                 <input id="amd" type="file" name="amd" class="form-control" onchange="validateFile(), readURL(this)" />
-            </div>Value cannot be null.
-            Parameter name: items'
+            </div>
             @if (Model.Imagen == null)
             {
                 <img id="img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" height="150" width="150" />
@@ -144,6 +145,21 @@
         });
     });
 
+    function soloLetras(input,label) {
+        var texto = $(input).val()
+        var regex = /^[a-zA-Z\s]*$/;
+
+        if (!regex.test(texto)) {
+            $("#" + label).text("Solo se permiten letras y espacios");
+            $(input).val(texto.replace(/[^a-zA-Z\s]/g, ''));
+            $(input).css({ "border-color": "red", "background-color": "#f8d7da" })
+            
+        }
+        else {
+            $("#" + label).text("");
+            $(input).css({ "border-color": "green", "background-color": "#D3F9C8" })
+        }
+    }
 
     function validateFile() {
         var allowedExtension = ['jpeg', 'jpg', 'png'];
