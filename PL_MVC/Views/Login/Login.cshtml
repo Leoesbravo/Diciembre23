@@ -1,0 +1,40 @@
+﻿@model ML.Usuario
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+<link rel="stylesheet" href="~/Content/Styles/Login.css">
+<div class="wrapper">
+    <div class="container">
+        <h1>Welcome</h1>
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form" }))
+        {
+                @Html.TextBoxFor(model => model.Email, new { @placeholder = "Email" })
+                <input type="password" placeholder="Password" name="password">
+           
+                <button type="submit" id="logintton">Login</button>
+        }
+        </div>
+
+    <ul class="bg-bubbles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script type="text/javascript">
+    $("#login-button").click(function (event) {
+        event.preventDefault();
+
+        $('form').fadeOut(500);
+        $('.wrapper').addClass('form-success');
+    });
+</script>

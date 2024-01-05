@@ -126,5 +126,14 @@ namespace DL_EF
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetAll_Result>("UsuarioGetAll", nombreParameter, apellidoPaternoParameter);
         }
+    
+        public virtual ObjectResult<UsuarioGetByEmail_Result> UsuarioGetByEmail(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("Email", email) :
+                new ObjectParameter("Email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioGetByEmail_Result>("UsuarioGetByEmail", emailParameter);
+        }
     }
 }

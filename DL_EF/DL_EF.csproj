@@ -105,6 +105,9 @@
     <Compile Include="UsuarioGetAll_Result.cs">
       <DependentUpon>ModelDataBase.tt</DependentUpon>
     </Compile>
+    <Compile Include="UsuarioGetByEmail_Result.cs">
+      <DependentUpon>ModelDataBase.tt</DependentUpon>
+    </Compile>
     <Compile Include="UsuarioGetById_Result.cs">
       <DependentUpon>ModelDataBase.tt</DependentUpon>
     </Compile>

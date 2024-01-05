@@ -15,10 +15,10 @@
         <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Direccion__IdCol__4D94879B" />
         <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Estado__IdPais__412EB0B6" />
         <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Municipio__IdEst__440B1D61" />
-        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Usuario" Width="1.5" PointX="12.875" PointY="5.75" />
+        <EntityTypeShape EntityType="LEscogidoNormalizacionModel.Usuario" Width="1.5" PointX="12.875" PointY="6.125" />
         <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Direccion__IdUsu__4CA06362" />
         <AssociationConnector Association="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

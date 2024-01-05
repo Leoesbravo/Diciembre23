@@ -21,9 +21,16 @@ namespace ML
             ApellidoPaterno = apellidoPaterno;
             Edad = edad;
         }
+        public Usuario(string email, string password)
+        {
+            Email = email;
+            Password = password;
+        }
         public int IdUsuario { get; set; }
         [Required(ErrorMessage ="El nombre no puede estar vacio")]
         public string Nombre { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
         [Required]
         public string ApellidoPaterno { get; set; }
         [StringLength(10)]

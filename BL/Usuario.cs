@@ -210,6 +210,40 @@ namespace BL
             }
             return diccionario;
         }
+        public static Dictionary<string, object> GetByEmail(string email)
+        {
+ 
+            string exepcion = "";
+            Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Usuario", null }, { "Exepcion", exepcion }, { "Resultado", false } };
+
+            try
+            {
+                using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
+                {
+                    var objeto = context.UsuarioGetByEmail(email).SingleOrDefault();
+                    //SingleOrDefault -- devuelve el unico valor 
+                    //FirstOrDefault -- devuelve el primero devuleve un valor por defecto
+
+                    if (objeto != null)
+                    {
+                        ML.Usuario usuario = new ML.Usuario(objeto.Email, objeto.Password);
+
+                        diccionario["Resultado"] = true;
+                        diccionario["Usuario"] = usuario;
+                    }
+                    else
+                    {
+                        diccionario["Resultado"] = false;
+                    }
+                    //ToList()
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return diccionario;
+        }
         public static Dictionary<string, object> GetAllEF(ML.Usuario usuario)
         {
             string exepcion = "";

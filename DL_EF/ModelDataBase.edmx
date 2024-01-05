@@ -64,6 +64,8 @@
           <Property Name="Edad" Type="int" Nullable="false" />
           <Property Name="IdRol" Type="int" />
           <Property Name="IMAGEN" Type="varbinary(max)" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK__Colonia__IdMunic__46E78A0C">
           <End Role="Municipio" Type="Self.Municipio" Multiplicity="0..1" />
@@ -161,6 +163,9 @@
           <Parameter Name="Nombre" Type="varchar" Mode="In" />
           <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="UsuarioGetByEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="UsuarioGetById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdUsuario" Type="int" Mode="In" />
         </Function>
@@ -238,15 +243,6 @@
           <FunctionImport Name="UsuarioGetById" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetById_Result)">
           <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
           </FunctionImport>
-          <EntitySet Name="Usuarios" EntityType="LEscogidoNormalizacionModel.Usuario" />
-          <AssociationSet Name="FK__Direccion__IdUsu__4CA06362" Association="LEscogidoNormalizacionModel.FK__Direccion__IdUsu__4CA06362">
-            <End Role="Usuario" EntitySet="Usuarios" />
-            <End Role="Direccion" EntitySet="Direccions" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Usuario__IdRol__286302EC" Association="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC">
-            <End Role="Rol" EntitySet="Rols" />
-            <End Role="Usuario" EntitySet="Usuarios" />
-          </AssociationSet>
           <FunctionImport Name="UsuarioAdd">
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
@@ -259,6 +255,18 @@
           <FunctionImport Name="UsuarioGetAll" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetAll_Result)">
             <Parameter Name="Nombre" Mode="In" Type="String" />
             <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Usuarios" EntityType="LEscogidoNormalizacionModel.Usuario" />
+          <AssociationSet Name="FK__Direccion__IdUsu__4CA06362" Association="LEscogidoNormalizacionModel.FK__Direccion__IdUsu__4CA06362">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Direccion" EntitySet="Direccions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Usuario__IdRol__286302EC" Association="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC">
+            <End Role="Rol" EntitySet="Rols" />
+            <End Role="Usuario" EntitySet="Usuarios" />
+          </AssociationSet>
+          <FunctionImport Name="UsuarioGetByEmail" ReturnType="Collection(LEscogidoNormalizacionModel.UsuarioGetByEmail_Result)">
+            <Parameter Name="Email" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Rol">
@@ -405,6 +413,17 @@
           <Property Type="Byte" Name="IdPais" Nullable="false" />
           <Property Type="Byte" Name="IdEstado" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="UsuarioGetAll_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Edad" Nullable="false" />
+          <Property Type="Binary" Name="Imagen" Nullable="true" />
+          <Property Type="Int32" Name="IdRol" Nullable="true" />
+          <Property Type="String" Name="Calle" Nullable="true" MaxLength="50" />
+          <Property Type="Byte" Name="IdColonia" Nullable="true" />
+        </ComplexType>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="IdUsuario" />
@@ -416,6 +435,8 @@
           <Property Name="Edad" Type="Int32" Nullable="false" />
           <Property Name="IdRol" Type="Int32" />
           <Property Name="IMAGEN" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Direccions" Relationship="LEscogidoNormalizacionModel.FK__Direccion__IdUsu__4CA06362" FromRole="Usuario" ToRole="Direccion" />
           <NavigationProperty Name="Rol" Relationship="LEscogidoNormalizacionModel.FK__Usuario__IdRol__286302EC" FromRole="Usuario" ToRole="Rol" />
         </EntityType>
@@ -443,16 +464,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="UsuarioGetAll_Result">
-          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
-          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="Edad" Nullable="false" />
-          <Property Type="Binary" Name="Imagen" Nullable="true" />
-          <Property Type="Int32" Name="IdRol" Nullable="true" />
-          <Property Type="String" Name="Calle" Nullable="true" MaxLength="50" />
-          <Property Type="Byte" Name="IdColonia" Nullable="true" />
+        <ComplexType Name="UsuarioGetByEmail_Result">
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Password" Nullable="true" MaxLength="50" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -576,19 +590,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Usuarios">
-            <EntityTypeMapping TypeName="LEscogidoNormalizacionModel.Usuario">
-              <MappingFragment StoreEntitySet="Usuario">
-                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
-                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-                <ScalarProperty Name="Edad" ColumnName="Edad" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="UsuarioAdd" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioAdd" />
           <FunctionImportMapping FunctionImportName="UsuarioGetAll" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioGetAll">
             <ResultMapping>
@@ -602,6 +603,29 @@
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
                 <ScalarProperty Name="Calle" ColumnName="Calle" />
                 <ScalarProperty Name="IdColonia" ColumnName="IdColonia" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="LEscogidoNormalizacionModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IMAGEN" ColumnName="IMAGEN" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioGetByEmail" FunctionName="LEscogidoNormalizacionModel.Store.UsuarioGetByEmail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LEscogidoNormalizacionModel.UsuarioGetByEmail_Result">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
