@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Carga";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Carga Masiva de registros</h2>
+<hr />
+@using (Html.BeginForm("Carga", "CargaMasiva", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="txt" onchange="validateFile()" id="inptxt" />
+    <input type="submit" value="Cargar"  class="btn btn-info" />
+}
+<script type="text/javascript">
+    function validateFile() {
+        var allowedExtension = ['txt'];
+        var fileExtension = document.getElementById('inptxt').value.split('.').pop().toLowerCase();
+        var isValidFile = false;
+
+        for (var index in allowedExtension) {
+
+            if (fileExtension === allowedExtension[index]) {
+                isValidFile = true;
+                break;
+            }
+        }
+
+        if (!isValidFile) {
+            alert('Las extensiones permitidas son : *.' + allowedExtension.join(', *.'));
+            document.getElementById('inptxt').value = "";
+        }
+
+        return isValidFile;
+    }
+</script>

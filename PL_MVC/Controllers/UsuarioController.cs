@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Management;
@@ -119,6 +120,7 @@ namespace PL_MVC.Controllers
                 if (file != null)
                 {
                     usuario.Imagen = ConvertToBytes(file);
+
                 }
 
                 if (usuario.IdUsuario > 0)
