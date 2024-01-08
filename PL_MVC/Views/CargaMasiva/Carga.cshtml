@@ -1,35 +1,45 @@
 ﻿
 @{
-    ViewBag.Title = "Carga";
+    ViewData["Title"] = "MateriaCargaMasiva";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="text-center">Carga Masiva de registros</h2>
-<hr />
-@using (Html.BeginForm("Carga", "CargaMasiva", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <input type="file" name="txt" onchange="validateFile()" id="inptxt" />
-    <input type="submit" value="Cargar"  class="btn btn-info" />
-}
-<script type="text/javascript">
-    function validateFile() {
-        var allowedExtension = ['txt'];
-        var fileExtension = document.getElementById('inptxt').value.split('.').pop().toLowerCase();
-        var isValidFile = false;
 
-        for (var index in allowedExtension) {
+<div class="container">
+    <h1>Carga Masiva de Materias</h1>
+    <h5>Seleccione con que tipo de archivo desea hacer la carga</h5>
+    <hr />
 
-            if (fileExtension === allowedExtension[index]) {
-                isValidFile = true;
-                break;
-            }
-        }
-
-        if (!isValidFile) {
-            alert('Las extensiones permitidas son : *.' + allowedExtension.join(', *.'));
-            document.getElementById('inptxt').value = "";
-        }
-
-        return isValidFile;
+    <div class="row">
+        <div class="col-md-6">
+            <a><input type="submit" value="Excel" class="btn btn-success col-md-12" id="xlsx" /></a>
+        </div>
+        <div class="col-md-6">
+            <a><input type="submit" value="TXT" class="btn btn-primary col-md-12" id="txt" /></a>
+        </div>
+    </div>
+    @using (Html.BeginForm("Carga", "CargaMasiva", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div class="row g-3" id="fuImage" style="display:none;">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-file-earmark-text-fill" style="color: lightseagreen"></i></span>
+                    <input type='file' class="form-control" name="file" />
+                </div>
+            </div>
+         <input type="submit" class="btn btn-outline-success"/>
+        </div>
+        <br />
     }
+</div>
+
+
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+
+
+    $('#xlsx').click(function () {
+        $('#fuImage').toggle('slow', function () {
+        });
+    });
 </script>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
@@ -423,5 +424,113 @@ namespace BL
             return diccionario;
         }
 
+        public static Dictionary<string, object> LeerExcel(string connectionString)
+        {
+            ML.Usuario usuario = new ML.Usuario();
+            Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Exepcion", "" }, { "Resultado", false } };
+            try
+            {
+                using (OleDbConnection context = new OleDbConnection(connectionString))
+                {
+                    string query = "SELECT * FROM [Hoja$]";
+                    using (OleDbCommand cmd = new OleDbCommand())
+                    {
+                        cmd.CommandText = query;
+                        cmd.Connection = context;
+
+                        OleDbDataAdapter da = new OleDbDataAdapter();
+                        da.SelectCommand = cmd;
+
+                        DataTable tableUsuario = new DataTable();
+
+                        da.Fill(tableUsuario);
+
+                        if (tableUsuario.Rows.Count > 0)
+                        {
+                            usuario.Usuarios = new List<ML.Usuario>();
+
+                            foreach (DataRow row in tableUsuario.Rows)
+                            {
+                                ML.Usuario user = new ML.Usuario();
+                                user.Nombre = row[0].ToString();
+                                user.ApellidoPaterno = row[1].ToString();
+                                user.ApellidoMaterno = row[2].ToString();
+                                user.Edad = int.Parse(row[3].ToString());
+                                user.Rol = new ML.Rol();
+                                user.Rol.IdRol = int.Parse(row[4].ToString());
+
+                                usuario.Usuarios.Add(user);
+                            }
+                            diccionario["Resultado"] = true;
+
+                        }
+                        diccionario["Usuario"] = tableUsuario;
+
+                        if (tableUsuario.Rows.Count > 0)
+                        {
+                            diccionario["Resultado"] = true;
+                        }
+                        else
+                        {
+                            diccionario["Resultado"] = false;
+                            diccionario["Exepcion"] = "No existen registros en el excel";
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                diccionario["Resultado"] = false;
+                diccionario["Exepcion"] = ex.Message;
+
+            }
+
+            return diccionario;
+        }
+        //public static Dictionary<string, object> ValidarExcel(List<object> usuarios)
+        //{
+        //    ML.Usuario usuario = new ML.Usuario();
+        //    Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Exepcion", "" }, { "Resultado", false } };
+
+        //    try
+        //    {
+        //        result.Objects = new List<object>(); //almacena los registros incompletos
+        //        int i = 1; //guarda el numero de la fila
+        //        foreach (ML.Usuario usuario in usuarios)
+        //        {
+        //            ML.ErrorExcel error = new ML.ErrorExcel();
+        //            error.IdRegistro = i++;
+
+        //            if (usuario.Nombre == "")
+        //            {
+        //                error.Mensaje += "Ingresar el nombre  ";
+        //            }
+        //            if (usuario.ApellidoMaterno == "")
+        //            {
+        //                error.Mensaje += "Ingresar el Apellido materno  ";
+        //            }
+        //            if (usuario.ApellidoPaterno == "")
+        //            {
+        //                error.Mensaje += "Ingresar el Apellido paterno  ";
+        //            }
+
+        //            if (error.Mensaje != null) //si tuvo algun error
+        //            {
+        //                result.Objects.Add(error); // agregar a la lista de errores
+        //            }
+
+
+        //        }
+        //        result.Correct = true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.Correct = false;
+        //        result.ErrorMessage = ex.Message;
+
+        //    }
+
+        //    return result;
+        //}
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -15,28 +16,68 @@ namespace PL_MVC.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Carga(HttpPostedFileBase txt)
+        public ActionResult Carga(HttpPostedFileBase file)
         {
-            StreamReader reader = new StreamReader(txt.InputStream);
 
-            reader.ReadLine();//saltar la primera linea(encabezados)
-            while ()//hasta que ya no tenga mas lineas que leer 
+            if (Session["pathExcel"] == null) //*
             {
-                ML.Usuario usuario = new ML.Usuario();
-                usuario.Nombre = //?
+                if (file != null)
+                {
+                    //obtener la extension de mi archivo
+                    string extensionArchivo = Path.GetExtension(file.FileName).ToLower();
+                    //obtener la extension del appsetting
+                    string extesionValida = ConfigurationManager.AppSettings["FormatoValido"];
 
-                BL.Usuario.AddEF(usuario);
-            }
-            if ()
-            {
-                ViewBag.Mensaje = "Se han insertado los registros";
+                    if (extensionArchivo == extesionValida)
+                    {
+                        string rutaproyecto = Server.MapPath("~/CargaMasiva/");
+                        string filePath = rutaproyecto + Path.GetFileNameWithoutExtension(file.FileName) + '-' + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xlsx";
+
+                        if (!System.IO.File.Exists(filePath))
+                        {
+
+                            file.SaveAs(filePath);
+
+                            string connectionString = ConfigurationManager.ConnectionStrings["OleDbConnection"] + filePath;
+                            Dictionary<string,object> resultUsuarios = BL.Usuario.LeerExcel(connectionString);
+                            bool resultado = (bool)resultUsuarios["Resultado"];
+
+                            if (resultado)
+                            {
+                                //ML.Result resultValidacion = BL.Usuario.ValidarExcel(resultUsuarios.Objects);
+                                //if (resultValidacion.Objects.Count == 0) //que hubo por lo menos un regitro esta incompleto
+                                //{
+                                //    resultValidacion.Correct = true;
+                                //    Session["pathExcel"] = filePath; //direccion del archivo
+                                //}
+
+                               // return View(resultValidacion);
+                                return View();
+                            }
+                            else
+                            {
+                                string exepcion = (string)resultUsuarios["Exepcion"];
+                                ViewBag.Message = exepcion;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Message = "Favor de seleccionar un archivo .xlsx, Verifique su archivo";
+                    }
+                }
+                else
+                {
+                    ViewBag.Message = "No selecciono ningun archivo, Seleccione uno correctamente";
+                }
+                return View();
             }
             else
             {
-                ViewBag.Mensaje = "Ha ocurrido un error";
+                
+
             }
-          
-            return PartialView("Modal");
+            return View();
         }
     }
 }
