@@ -49,6 +49,7 @@
     <Compile Include="Municipio.cs" />
     <Compile Include="Pais.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultExcel.cs" />
     <Compile Include="Rol.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>

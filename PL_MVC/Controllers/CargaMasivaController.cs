@@ -44,15 +44,15 @@ namespace PL_MVC.Controllers
 
                             if (resultado)
                             {
-                                //ML.Result resultValidacion = BL.Usuario.ValidarExcel(resultUsuarios.Objects);
-                                //if (resultValidacion.Objects.Count == 0) //que hubo por lo menos un regitro esta incompleto
-                                //{
-                                //    resultValidacion.Correct = true;
-                                //    Session["pathExcel"] = filePath; //direccion del archivo
-                                //}
+                                //Falta explicar
+                                Dictionary<string,object> resultValidacion = BL.Usuario.ValidarExcel((List<object>)resultUsuarios["Objects"]);
+                                if (((List<object>)resultValidacion["Objects"]).Count == 0) //que hubo por lo menos un regitro esta incompleto
+                                {
+                                    resultValidacion["Resultado"] = true;
+                                    Session["pathExcel"] = filePath; //direccion del archivo
+                                }
 
-                               // return View(resultValidacion);
-                                return View();
+                                return View(resultValidacion);
                             }
                             else
                             {

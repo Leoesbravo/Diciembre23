@@ -423,11 +423,10 @@ namespace BL
             }
             return diccionario;
         }
-
         public static Dictionary<string, object> LeerExcel(string connectionString)
         {
             ML.Usuario usuario = new ML.Usuario();
-            Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Exepcion", "" }, { "Resultado", false } };
+            Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Exepcion", "" }, { "Resultado", false }, {"Objects", null} };
             try
             {
                 using (OleDbConnection context = new OleDbConnection(connectionString))
@@ -462,14 +461,8 @@ namespace BL
                                 usuario.Usuarios.Add(user);
                             }
                             diccionario["Resultado"] = true;
-
-                        }
-                        diccionario["Usuario"] = tableUsuario;
-
-                        if (tableUsuario.Rows.Count > 0)
-                        {
-                            diccionario["Resultado"] = true;
-                        }
+                            diccionario["Objects"] = usuario.Usuarios;
+                        }                       
                         else
                         {
                             diccionario["Resultado"] = false;
@@ -487,50 +480,50 @@ namespace BL
 
             return diccionario;
         }
-        //public static Dictionary<string, object> ValidarExcel(List<object> usuarios)
-        //{
-        //    ML.Usuario usuario = new ML.Usuario();
-        //    Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Exepcion", "" }, { "Resultado", false } };
+        //Falta explicar
+        public static Dictionary<string, object> ValidarExcel(List<object> usuarios)
+        {
+            Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Exepcion", "" }, { "Resultado", false }, { "Objects", null} };
+            ML.ResultExcel resultExcel = new ML.ResultExcel();
+            try
+            {
+                resultExcel.Objects = new List<object>(); //almacena los registros incompletos
+                int i = 1; //guarda el numero de la fila
+                foreach (ML.Usuario usuario in usuarios)
+                {
+                    ML.ResultExcel error = new ML.ResultExcel();
+                    error.IdRegistro = i++;
 
-        //    try
-        //    {
-        //        result.Objects = new List<object>(); //almacena los registros incompletos
-        //        int i = 1; //guarda el numero de la fila
-        //        foreach (ML.Usuario usuario in usuarios)
-        //        {
-        //            ML.ErrorExcel error = new ML.ErrorExcel();
-        //            error.IdRegistro = i++;
+                    if (usuario.Nombre == "")
+                    {
+                        error.Mensaje += "Ingresar el nombre  ";
+                    }
+                    if (usuario.ApellidoMaterno == "")
+                    {
+                        error.Mensaje += "Ingresar el Apellido materno  ";
+                    }
+                    if (usuario.ApellidoPaterno == "")
+                    {
+                        error.Mensaje += "Ingresar el Apellido paterno  ";
+                    }
 
-        //            if (usuario.Nombre == "")
-        //            {
-        //                error.Mensaje += "Ingresar el nombre  ";
-        //            }
-        //            if (usuario.ApellidoMaterno == "")
-        //            {
-        //                error.Mensaje += "Ingresar el Apellido materno  ";
-        //            }
-        //            if (usuario.ApellidoPaterno == "")
-        //            {
-        //                error.Mensaje += "Ingresar el Apellido paterno  ";
-        //            }
-
-        //            if (error.Mensaje != null) //si tuvo algun error
-        //            {
-        //                result.Objects.Add(error); // agregar a la lista de errores
-        //            }
+                    if (error.Mensaje != null) //si tuvo algun error
+                    {
+                        resultExcel.Objects.Add(error); // agregar a la lista de errores
+                    }
 
 
-        //        }
-        //        result.Correct = true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.Correct = false;
-        //        result.ErrorMessage = ex.Message;
+                }
+                diccionario["Objects"] = resultExcel.Objects;
+            }
+            catch (Exception ex)
+            {
+                diccionario["Resultado"] = false;
+                diccionario["Exepcion"]= ex.Message;
 
-        //    }
+            }
 
-        //    return result;
-        //}
+            return diccionario;
+        }
     }
 }
