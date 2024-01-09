@@ -1,4 +1,4 @@
-﻿
+﻿@model ML.ResultExcel
 @{
     ViewData["Title"] = "MateriaCargaMasiva";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -20,6 +20,8 @@
     </div>
     @using (Html.BeginForm("Carga", "CargaMasiva", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
+
+
         <div class="row g-3" id="fuImage" style="display:none;">
             <div class="col-md-6">
                 <div class="input-group">
@@ -27,7 +29,23 @@
                     <input type='file' class="form-control" name="file" />
                 </div>
             </div>
-         <input type="submit" class="btn btn-outline-success"/>
+            @if (Model == null)
+            {
+                <input type="submit" value="Procesar" class="btn btn-outline-warning" />
+            }
+            else
+            {
+                if (Model.Objects.Count == 0 || Model.Objects == null)
+                {
+                    <input type="submit" value="Insertar" class="btn btn-outline-warning" />
+                }
+                else
+                {
+                    <input type="submit" value="Procesar" class="btn btn-outline-warning" />
+                }
+            }
+
+
         </div>
         <br />
     }

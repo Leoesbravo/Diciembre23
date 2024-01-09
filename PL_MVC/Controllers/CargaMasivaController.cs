@@ -13,7 +13,9 @@ namespace PL_MVC.Controllers
         // GET: CargaMasiva
         public ActionResult Carga()
         {
-            return View();
+            ML.ResultExcel resultExcel = new ML.ResultExcel();
+            resultExcel.Objects = new List<object>();
+            return View(resultExcel);
         }
         [HttpPost]
         public ActionResult Carga(HttpPostedFileBase file)
@@ -47,13 +49,16 @@ namespace PL_MVC.Controllers
                                 //Falta explicar
 
                                 Dictionary<string, object> resultValidacion = BL.Usuario.ValidarExcel((List<ML.Usuario>)resultUsuarios["Objects"]);
-                                if (((List<object>)resultValidacion["Objects"]).Count == 0) //que hubo por lo menos un regitro esta incompleto
+                                if (((List<object>)resultValidacion["Objects"]).Count > 0) //que hubo por lo menos un regitro esta incompleto
+                                {
+                                    return View(resultValidacion);
+                                }
+                                else
                                 {
                                     resultValidacion["Resultado"] = true;
                                     Session["pathExcel"] = filePath; //direccion del archivo
-                                }
-
-                                return View(resultValidacion);
+                                    return View(resultValidacion);
+                                }          
                             }
                             else
                             {
