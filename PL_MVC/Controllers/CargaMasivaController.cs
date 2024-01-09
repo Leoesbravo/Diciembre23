@@ -39,13 +39,14 @@ namespace PL_MVC.Controllers
                             file.SaveAs(filePath);
 
                             string connectionString = ConfigurationManager.ConnectionStrings["OleDbConnection"] + filePath;
-                            Dictionary<string,object> resultUsuarios = BL.Usuario.LeerExcel(connectionString);
+                            Dictionary<string, object> resultUsuarios = BL.Usuario.LeerExcel(connectionString);
                             bool resultado = (bool)resultUsuarios["Resultado"];
 
                             if (resultado)
                             {
                                 //Falta explicar
-                                Dictionary<string,object> resultValidacion = BL.Usuario.ValidarExcel((List<object>)resultUsuarios["Objects"]);
+
+                                Dictionary<string, object> resultValidacion = BL.Usuario.ValidarExcel((List<ML.Usuario>)resultUsuarios["Objects"]);
                                 if (((List<object>)resultValidacion["Objects"]).Count == 0) //que hubo por lo menos un regitro esta incompleto
                                 {
                                     resultValidacion["Resultado"] = true;
@@ -72,12 +73,24 @@ namespace PL_MVC.Controllers
                 }
                 return View();
             }
-            else
+            else  // CARGA A LA BASE DE DATOS
             {
-                
+                string filepath = Session["pathExcel"].ToString();
+                string connectionString = ConfigurationManager.ConnectionStrings["OleDbConnection"] + filepath;
+                Dictionary<string, object> resultUsuarios = BL.Usuario.LeerExcel(connectionString);
+                bool resultado = (bool)resultUsuarios["Resultado"];
 
+                if (resultado)
+                {
+                    //foreach(ML.Usuario usuario in resultUsuarios["Objects"])//Unboxing
+                    //{
+                    //    BL.Usuario.Add(usuario);  //LOG de errores txt
+                    //}
+                    Session["pathExcel"] = null; //especifica
+                    Session.Clear(); //TODAS 
+                }
+                return View();
             }
-            return View();
         }
     }
 }

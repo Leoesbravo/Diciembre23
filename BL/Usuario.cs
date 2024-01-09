@@ -481,7 +481,7 @@ namespace BL
             return diccionario;
         }
         //Falta explicar
-        public static Dictionary<string, object> ValidarExcel(List<object> usuarios)
+        public static Dictionary<string, object> ValidarExcel(List<ML.Usuario> usuarios)
         {
             Dictionary<string, object> diccionario = new Dictionary<string, object> { { "Exepcion", "" }, { "Resultado", false }, { "Objects", null} };
             ML.ResultExcel resultExcel = new ML.ResultExcel();
@@ -498,7 +498,7 @@ namespace BL
                     {
                         error.Mensaje += "Ingresar el nombre  ";
                     }
-                    if (usuario.ApellidoMaterno == "")
+                    if (usuario.ApellidoMaterno == "") //Opcional
                     {
                         error.Mensaje += "Ingresar el Apellido materno  ";
                     }
@@ -506,6 +506,7 @@ namespace BL
                     {
                         error.Mensaje += "Ingresar el Apellido paterno  ";
                     }
+                    //Agregar todo los if necesarios
 
                     if (error.Mensaje != null) //si tuvo algun error
                     {
