@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ML;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -14,6 +15,12 @@ namespace SL_WCF
         public Dictionary<string,object> Add(ML.Usuario usuario)
         {
             Dictionary<string, object> diccionario = BL.Usuario.AddEF(usuario);
+            return diccionario;
+        }
+
+        public Dictionary<string, object> GetAll(Usuario usuario)
+        {
+            Dictionary<string, object> diccionario = BL.Usuario.GetAllEF(usuario);
             return diccionario;
         }
     }

@@ -27,8 +27,9 @@ namespace PL_MVC.Controllers
             {
                 usuario.ApellidoPaterno = "";
             }
-
-            Dictionary<string, object> result = BL.Usuario.GetAllEF(usuario);
+            ServiceReferenceUsuario.ServiceUsuarioClient serviceUsuario = new ServiceReferenceUsuario.ServiceUsuarioClient();
+            Dictionary<string, object> result = serviceUsuario.GetAll(usuario);
+            //Dictionary<string, object> result = BL.Usuario.GetAllEF(usuario);
             //unboxing
             bool resultado = (bool)result["Resultado"];
 
@@ -54,6 +55,7 @@ namespace PL_MVC.Controllers
             ML.Usuario usuario = new ML.Usuario();
             if (IdUsuario != null)
             {
+                //WCF
                 Dictionary<string, object> result = BL.Usuario.GetByIdEF(IdUsuario.Value);
                 bool resultado = (bool)result["Resultado"];
 
@@ -131,6 +133,7 @@ namespace PL_MVC.Controllers
                 }
                 else
                 {
+                    //WCF
                     Dictionary<string, object> result = BL.Usuario.AddEF(usuario);
                     bool resultado = (bool)result["Resultado"];
 
@@ -165,6 +168,7 @@ namespace PL_MVC.Controllers
         [HttpGet]
         public ActionResult Delete(int IdUsuario)
         {
+            //WCF
             return View();
         }
         public ActionResult Ajax()
