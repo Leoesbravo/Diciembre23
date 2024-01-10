@@ -419,7 +419,7 @@ namespace BL
             }
             catch (Exception ex)
             {
-
+                diccionario["Exepcion"] = ex;
             }
             return diccionario;
         }
