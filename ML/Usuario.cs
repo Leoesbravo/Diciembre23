@@ -13,6 +13,12 @@ namespace ML
         {
 
         }
+        public Usuario(string nombre, string apellidoPaterno, string apellidoMaterno)
+        {
+            ApellidoPaterno = apellidoPaterno;
+            Nombre = nombre;
+            ApellidoMaterno = "";
+        }
         public Usuario(int idusuario, string nombre, string apellidoPaterno, string apellidoMaterno, int edad)
         {
             IdUsuario = idusuario;
