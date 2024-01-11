@@ -12,16 +12,26 @@ namespace SL_WCF
     // NOTE: In order to launch WCF Test Client for testing this service, please select ServiceUsuario.svc or ServiceUsuario.svc.cs at the Solution Explorer and start debugging.
     public class ServiceUsuario : IServiceUsuario
     {
-        public Dictionary<string,object> Add(ML.Usuario usuario)
+        public SL_WCF.Result Add(ML.Usuario usuario)
         {
             Dictionary<string, object> diccionario = BL.Usuario.AddEF(usuario);
-            return diccionario;
+            SL_WCF.Result result = new SL_WCF.Result();
+            result.Resultado = (bool)diccionario["Resultado"];
+            result.Mensaje = diccionario["Exepcion"].ToString();
+            return result;
         }
 
-        public Dictionary<string, object> GetAll(Usuario usuario)
+        public SL_WCF.Result GetAll(Usuario usuario)
         {
             Dictionary<string, object> diccionario = BL.Usuario.GetAllEF(usuario);
-            return diccionario;
+            SL_WCF.Result result = new SL_WCF.Result();
+            result.Resultado = (bool)diccionario["Resultado"];
+            result.Mensaje = diccionario["Exepcion"].ToString();
+            //List<string> keyList = new List<string>(this.yourDictionary.Keys);
+            List<object> usuarios = new List<object>(diccionario.Keys); //ISAAC
+            //result.Objects = (List<object>)diccionario["Usuario"]; //GetAll
+            // result.Object = (object)diccionario["Usuario"]; //GetById
+            return result;
         }
     }
 }

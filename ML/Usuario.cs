@@ -37,7 +37,7 @@ namespace ML
         public string ApellidoMaterno { get; set; }
         public int Edad { get; set; }
         public byte[] Imagen { get; set; }
-        public List<Usuario> Usuarios { get; set; }
+        public List<object> Usuarios { get; set; }
 
         //Propiedad de navegacion
         //Navegar entre clases

@@ -14,7 +14,7 @@ namespace SL_WCF
         //Interfaz -- Define el comportamiento de las clases que hereden de ella
         //Plantilla metodos sin implementación
         //Herencia -- Obliga a implementar los metodos declarados
-        [OperationContract]
+        [OperationContract] //Endpoint
         void DoWork();  //Firma de metodos
 
         [OperationContract]

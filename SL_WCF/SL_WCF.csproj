@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="IServiceOperaciones.cs" />
     <Compile Include="IServiceUsuario.cs" />
+    <Compile Include="Result.cs" />
     <Compile Include="Service1.svc.cs">
       <DependentUpon>Service1.svc</DependentUpon>
     </Compile>
