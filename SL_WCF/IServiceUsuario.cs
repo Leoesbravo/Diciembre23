@@ -14,7 +14,7 @@ namespace SL_WCF
         [OperationContract]
         Dictionary<string, object> Add(ML.Usuario usuario);
         [OperationContract]
-        [ServiceKnownType(typeof(ML.Usuario))]
+        [ServiceKnownType (typeof(ML.Usuario))]
         Dictionary<string, object> GetAll(ML.Usuario usuario);
         
 
