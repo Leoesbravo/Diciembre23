@@ -28,7 +28,7 @@ namespace PL_MVC.Controllers
                 usuario.ApellidoPaterno = "";
             }
             ServiceReferenceUsuario.ServiceUsuarioClient serviceUsuario = new ServiceReferenceUsuario.ServiceUsuarioClient();
-            Dictionary<string, object> result = serviceUsuario.GetAll(usuario);
+            var result = serviceUsuario.GetAll(usuario);
             //Dictionary<string, object> result = BL.Usuario.GetAllEF(usuario);
             //unboxing
             bool resultado = (bool)result["Resultado"];

@@ -18,7 +18,7 @@ namespace SL_WCF
             return diccionario;
         }
 
-        public Dictionary<string, object> GetAll(Usuario usuario)
+        public Dictionary<string, object> GetAll(ML.Usuario usuario)
         {
             Dictionary<string, object> diccionario = BL.Usuario.GetAllEF(usuario);
             return diccionario;
