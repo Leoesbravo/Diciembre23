@@ -12,12 +12,9 @@ namespace SL_WCF
     public interface IServiceUsuario
     {
         [OperationContract]
-        Dictionary<string, object> Add(ML.Usuario usuario);
+        SL_WCF.Result Add(ML.Usuario usuario);
         [OperationContract]
         [ServiceKnownType (typeof(ML.Usuario))]
-        Dictionary<string, object> GetAll(ML.Usuario usuario);
-        
-
-
+        SL_WCF.Result GetAll(ML.Usuario usuario);
     }
 }

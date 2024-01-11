@@ -27,21 +27,28 @@ namespace PL_MVC.Controllers
             {
                 usuario.ApellidoPaterno = "";
             }
-            ServiceReferenceUsuario.ServiceUsuarioClient serviceUsuario = new ServiceReferenceUsuario.ServiceUsuarioClient();
-            Dictionary<string, object> result = serviceUsuario.GetAll(usuario);
+            ServiceUsuario.ServiceUsuarioClient serviceUsuario = new ServiceUsuario.ServiceUsuarioClient();
+            var result = serviceUsuario.GetAll(usuario);
             //Dictionary<string, object> result = BL.Usuario.GetAllEF(usuario);
             //unboxing
-            bool resultado = (bool)result["Resultado"];
+            // bool resultado = (bool)result["Resultado"];
+            bool resultado = result.Resultado;
 
             if (resultado == true)
             {
-                usuario = (ML.Usuario)result["Usuario"];
+                usuario.Usuarios = result.Objects.ToList();
+                // solucion por lista de Usuarios 
+                //usuario.Usuarios = new List<ML.Usuario>();
+                //foreach (object user in result.Objects)
+                //{
+                //    usuario.Usuarios.Add((ML.Usuario)user);
+                //}
                 return View(usuario);
             }
             else
             {
                 //pendiente la alerta
-                string exepcion = (string)result["Exepcion"];
+                string exepcion = result.Mensaje;
                 return View();
             }
 

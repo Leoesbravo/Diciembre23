@@ -125,7 +125,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Connected Services\ServiceReferenceUsuario\Reference.cs">
+    <Compile Include="Connected Services\ServiceUsuario\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -140,10 +140,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Connected Services\ServiceReferenceUsuario\ServiceUsuario.disco" />
-    <None Include="Connected Services\ServiceReferenceUsuario\configuration91.svcinfo" />
-    <None Include="Connected Services\ServiceReferenceUsuario\configuration.svcinfo" />
-    <None Include="Connected Services\ServiceReferenceUsuario\Reference.svcmap">
+    <Content Include="Connected Services\ServiceUsuario\PL_MVC.ServiceUsuario.Result.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Connected Services\ServiceUsuario\ServiceUsuario.disco" />
+    <None Include="Connected Services\ServiceUsuario\configuration91.svcinfo" />
+    <None Include="Connected Services\ServiceUsuario\configuration.svcinfo" />
+    <None Include="Connected Services\ServiceUsuario\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
@@ -195,17 +198,23 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
-    <None Include="Connected Services\ServiceReferenceUsuario\ServiceUsuario.wsdl" />
-    <None Include="Connected Services\ServiceReferenceUsuario\ServiceUsuario.xsd">
+    <None Include="Connected Services\ServiceUsuario\ServiceUsuario.wsdl" />
+    <None Include="Connected Services\ServiceUsuario\ServiceUsuario.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReferenceUsuario\ServiceUsuario1.xsd">
+    <None Include="Connected Services\ServiceUsuario\ServiceUsuario1.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReferenceUsuario\ServiceUsuario2.xsd">
+    <None Include="Connected Services\ServiceUsuario\ServiceUsuario2.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\ServiceReferenceUsuario\ServiceUsuario3.xsd">
+    <None Include="Connected Services\ServiceUsuario\ServiceUsuario3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceUsuario\ServiceUsuario4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\ServiceUsuario\ServiceUsuario5.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -265,7 +274,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\ServiceReferenceUsuario\" />
+    <WCFMetadataStorage Include="Connected Services\ServiceUsuario\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

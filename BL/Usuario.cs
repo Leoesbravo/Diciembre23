@@ -83,7 +83,7 @@ namespace BL
 
                     if (tablaUsuario.Rows.Count > 0)
                     {
-                        user.Usuarios = new List<ML.Usuario>();
+                        user.Usuarios = new List<object>();
                         foreach (DataRow registro in tablaUsuario.Rows)
                         {
                             ML.Usuario usuario = new ML.Usuario();
@@ -257,7 +257,7 @@ namespace BL
                     var registros = context.UsuarioGetAll(usuario.Nombre, usuario.ApellidoPaterno).ToList();
                     if (registros != null)
                     {
-                        usuario.Usuarios = new List<ML.Usuario>();
+                        usuario.Usuarios = new List<object>();
                         foreach (var registro in registros)
                         {
                             //instancia -Crear un objeto
@@ -326,7 +326,7 @@ namespace BL
                                  }).ToList();
                     if (query != null)
                     {
-                        usuario.Usuarios = new List<ML.Usuario>();
+                        usuario.Usuarios = new List<object>();
                         foreach (var registro in query)
                         {
                             //instancia -Crear un objeto
@@ -446,7 +446,7 @@ namespace BL
 
                         if (tableUsuario.Rows.Count > 0)
                         {
-                            usuario.Usuarios = new List<ML.Usuario>();
+                            usuario.Usuarios = new List<object>();
 
                             foreach (DataRow row in tableUsuario.Rows)
                             {
