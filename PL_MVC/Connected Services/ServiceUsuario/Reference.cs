@@ -17,7 +17,7 @@ namespace PL_MVC.ServiceUsuario {
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
     [System.Runtime.Serialization.DataContractAttribute(Name="Result", Namespace="http://schemas.datacontract.org/2004/07/SL_WCF")]
     [System.SerializableAttribute()]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(object[]))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Exception))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(ML.Usuario))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(ML.Direccion))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(ML.Colonia))]
@@ -30,8 +30,7 @@ namespace PL_MVC.ServiceUsuario {
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(ML.Municipio[]))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(ML.Rol))]
     [System.Runtime.Serialization.KnownTypeAttribute(typeof(ML.Rol[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(ML.Usuario[]))]
-    [System.Runtime.Serialization.KnownTypeAttribute(typeof(System.Exception))]
+    [System.Runtime.Serialization.KnownTypeAttribute(typeof(object[]))]
     public partial class Result : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
@@ -142,12 +141,40 @@ namespace PL_MVC.ServiceUsuario {
     public interface IServiceUsuario {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/Add", ReplyAction="http://tempuri.org/IServiceUsuario/AddResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Exception))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Direccion))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Colonia))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Colonia[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Municipio))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Estado))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Estado[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Pais))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Pais[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Municipio[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Rol))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Rol[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PL_MVC.ServiceUsuario.Result))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         PL_MVC.ServiceUsuario.Result Add(ML.Usuario usuario);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/Add", ReplyAction="http://tempuri.org/IServiceUsuario/AddResponse")]
         System.Threading.Tasks.Task<PL_MVC.ServiceUsuario.Result> AddAsync(ML.Usuario usuario);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/GetAll", ReplyAction="http://tempuri.org/IServiceUsuario/GetAllResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(System.Exception))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Direccion))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Colonia))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Colonia[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Municipio))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Estado))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Estado[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Pais))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Pais[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Municipio[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Rol))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(ML.Rol[]))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(PL_MVC.ServiceUsuario.Result))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
         PL_MVC.ServiceUsuario.Result GetAll(ML.Usuario usuario);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IServiceUsuario/GetAll", ReplyAction="http://tempuri.org/IServiceUsuario/GetAllResponse")]

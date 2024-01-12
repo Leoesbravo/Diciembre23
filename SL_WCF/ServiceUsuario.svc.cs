@@ -1,5 +1,6 @@
 ﻿using ML;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -28,8 +29,8 @@ namespace SL_WCF
             result.Resultado = (bool)diccionario["Resultado"];
             result.Mensaje = diccionario["Exepcion"].ToString();
             //List<string> keyList = new List<string>(this.yourDictionary.Keys);
-            List<object> usuarios = new List<object>(diccionario.Keys); //ISAAC
-            //result.Objects = (List<object>)diccionario["Usuario"]; //GetAll
+            ML.Usuario usuarios = (ML.Usuario)diccionario["Usuario"];
+            result.Objects = usuarios.Usuarios; //GetAll
             // result.Object = (object)diccionario["Usuario"]; //GetById
             return result;
         }

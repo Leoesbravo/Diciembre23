@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/ML" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/ML" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:61361/ServiceUsuario.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
   <xs:complexType name="Usuario">
     <xs:sequence>
       <xs:element minOccurs="0" name="ApellidoMaterno" nillable="true" type="xs:string" />
@@ -12,7 +13,7 @@
       <xs:element minOccurs="0" name="Nombre" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Password" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Rol" nillable="true" type="tns:Rol" />
-      <xs:element minOccurs="0" name="Usuarios" nillable="true" type="tns:ArrayOfUsuario" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Usuarios" nillable="true" type="q1:ArrayOfanyType" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Usuario" nillable="true" type="tns:Usuario" />
@@ -98,10 +99,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="ArrayOfRol" nillable="true" type="tns:ArrayOfRol" />
-  <xs:complexType name="ArrayOfUsuario">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="Usuario" nillable="true" type="tns:Usuario" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ArrayOfUsuario" nillable="true" type="tns:ArrayOfUsuario" />
 </xs:schema>
