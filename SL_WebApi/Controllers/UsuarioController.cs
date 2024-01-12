@@ -13,6 +13,15 @@ namespace SL_WebApi.Controllers
     {
         [HttpGet]
         [Route("api/Usuario/GetAll")]
+        //PUT -- Actualizar todo -- Verificar si existe recurso -- Actualizar --- Error
+        //POST -- Agregar nuevo recurso
+        //PATCH -- Actualizar parcial -- Verificar si existe recurso -- Actualizar --- ADD
+
+        //200 OK 200 
+        //300 Redireccionamiento
+        //400 Error en el cliente(No es sinonimo de Usuario) 
+        //500 Error en el servidor 
+        //100 Informativos
         public IHttpActionResult GetAll()
         {
             ML.Usuario usuario = new ML.Usuario("","","");
@@ -21,7 +30,7 @@ namespace SL_WebApi.Controllers
             if (result)
             {              
                 usuario = (ML.Usuario)resultado["Usuario"];
-                return Ok(usuario); 
+                return Content(HttpStatusCode.OK, usuario);
             }
             else
             {

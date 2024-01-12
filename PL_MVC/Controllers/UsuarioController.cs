@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Management;
 using System.Web.Mvc;
@@ -27,16 +29,45 @@ namespace PL_MVC.Controllers
             {
                 usuario.ApellidoPaterno = "";
             }
-            ServiceUsuario.ServiceUsuarioClient serviceUsuario = new ServiceUsuario.ServiceUsuarioClient();
-            var result = serviceUsuario.GetAll(usuario);
+            bool resultado = false;
+            //ServiceUsuario.ServiceUsuarioClient serviceUsuario = new ServiceUsuario.ServiceUsuarioClient();
+            //var result = serviceUsuario.GetAll(usuario);
             //Dictionary<string, object> result = BL.Usuario.GetAllEF(usuario);
             //unboxing
             // bool resultado = (bool)result["Resultado"];
-            bool resultado = result.Resultado;
 
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["WebApi"].ToString());
+                var responseTask = client.GetAsync("usuario/GetAll");
+                responseTask.Wait();
+
+                var respuesta = responseTask.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    var readTask = respuesta.Content.ReadAsAsync<Dictionary<string, object>>(); 
+                    readTask.Wait();
+
+                    usuario = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(responseTask.Result["Usuario"]);
+                    resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseTask.Result["Resultado"]);
+
+                }
+                else
+                {
+                    resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseTask.Result["Mensaje"]);
+                }
+                //Direccion
+                    //Localhost + api + entidad + accion
+                //Verbo
+                //Body / Header 
+            }
+            //bool resultado = result.Resultado;
+            Dictionary<string, object> result = BL.Usuario.GetAllEF(usuario);
+            //unboxing
+            
             if (resultado == true)
             {
-                usuario.Usuarios = result.Objects.ToList();
+                //usuario.Usuarios = result.Objects.ToList();
                 // solucion por lista de Usuarios 
                 //usuario.Usuarios = new List<ML.Usuario>();
                 //foreach (object user in result.Objects)
@@ -48,7 +79,7 @@ namespace PL_MVC.Controllers
             else
             {
                 //pendiente la alerta
-                string exepcion = result.Mensaje;
+                //string exepcion = result.Mensaje;
                 return View();
             }
 
