@@ -48,13 +48,13 @@ namespace PL_MVC.Controllers
                     var readTask = respuesta.Content.ReadAsAsync<Dictionary<string, object>>(); 
                     readTask.Wait();
 
-                    usuario = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(responseTask.Result["Usuario"]);
-                    resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseTask.Result["Resultado"]);
+                    usuario = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(readTask.Result.ToString());
+                    //resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseTask.Result["Resultado"]);
 
                 }
                 else
                 {
-                    resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseTask.Result["Mensaje"]);
+                    //resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseTask.Result["Mensaje"]);
                 }
                 //Direccion
                     //Localhost + api + entidad + accion

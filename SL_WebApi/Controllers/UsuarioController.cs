@@ -27,7 +27,7 @@ namespace SL_WebApi.Controllers
             ML.Usuario usuario = new ML.Usuario("","","");
             Dictionary<string, object> resultado = BL.Usuario.GetAllEF(usuario);
             bool result = (bool)resultado["Resultado"];
-            if (result)
+            if (true)
             {              
                 usuario = (ML.Usuario)resultado["Usuario"];
                 return Content(HttpStatusCode.OK, usuario);
