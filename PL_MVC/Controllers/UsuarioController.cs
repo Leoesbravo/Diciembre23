@@ -47,7 +47,10 @@ namespace PL_MVC.Controllers
                 {
                     var readTask = respuesta.Content.ReadAsAsync<Dictionary<string, object>>(); 
                     readTask.Wait();
-
+                    if (readTask.Result.TryGetValue("Usuarios", out object usuarioObject) && usuarioObject != null)
+                    {
+                        usuario.Usuarios = Newtonsoft.Json.JsonConvert.DeserializeObject<List<object>>(usuarioObject.ToString());
+                    }
                     usuario = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(readTask.Result.ToString());
                     //resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseTask.Result["Resultado"]);
 
