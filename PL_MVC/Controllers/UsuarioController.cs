@@ -30,18 +30,14 @@ namespace PL_MVC.Controllers
                 usuario.ApellidoPaterno = "";
             }
             bool resultado = false;
-            //ServiceUsuario.ServiceUsuarioClient serviceUsuario = new ServiceUsuario.ServiceUsuarioClient();
-            //var result = serviceUsuario.GetAll(usuario);
-            //Dictionary<string, object> result = BL.Usuario.GetAllEF(usuario);
-            //unboxing
-            // bool resultado = (bool)result["Resultado"];
+ 
 
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.AppSettings["WebApi"].ToString());
                 var responseTask = client.GetAsync("usuario/GetAll");
-                responseTask.Wait();
-
+                responseTask.Wait(); // Llamada al metodo de la api
+                List<object> usuarios = new List<object>();
                 var respuesta = responseTask.Result;
                 if (respuesta.IsSuccessStatusCode)
                 {
@@ -49,10 +45,14 @@ namespace PL_MVC.Controllers
                     readTask.Wait();
                     if (readTask.Result.TryGetValue("Usuarios", out object usuarioObject) && usuarioObject != null)
                     {
-                        usuario.Usuarios = Newtonsoft.Json.JsonConvert.DeserializeObject<List<object>>(usuarioObject.ToString());
+                        usuarios = Newtonsoft.Json.JsonConvert.DeserializeObject<List<object>>(usuarioObject.ToString());
                     }
-                    usuario = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(readTask.Result.ToString());
-                    //resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<bool>(responseTask.Result["Resultado"]);
+                    usuario.Usuarios = new List<object>();
+                    foreach(var jsonUsuario in usuarios)
+                    {
+                        ML.Usuario usuarioDes = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(jsonUsuario.ToString());
+                        usuario.Usuarios.Add(usuarioDes);
+                    }
 
                 }
                 else
@@ -68,7 +68,7 @@ namespace PL_MVC.Controllers
             Dictionary<string, object> result = BL.Usuario.GetAllEF(usuario);
             //unboxing
             
-            if (resultado == true)
+            if (usuario.Usuarios != null)
             {
                 //usuario.Usuarios = result.Objects.ToList();
                 // solucion por lista de Usuarios 
