@@ -405,7 +405,7 @@ namespace BL
             {
                 using (DL_EF.LEscogidoNormalizacionEntities context = new DL_EF.LEscogidoNormalizacionEntities())
                 {
-                    var registros = context.UsuarioAdd(usuario.Nombre, usuario.ApellidoPaterno, usuario.ApellidoMaterno, usuario.Edad, usuario.Direccion.Calle, usuario.Direccion.Colonia.IdColonia, usuario.Imagen);
+                    var registros = context.UsuarioAdd(usuario.Nombre, usuario.ApellidoPaterno, usuario.ApellidoMaterno, usuario.Edad, usuario.Direccion.Calle, 1 , usuario.Imagen);
                     if (registros > 0)
                     {
                         diccionario["Resultado"] = true;

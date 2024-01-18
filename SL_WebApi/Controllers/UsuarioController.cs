@@ -54,5 +54,22 @@ namespace SL_WebApi.Controllers
                 return BadRequest((string)resultado["Resultado"]);
             }
         }
+        [HttpDelete]
+        [Route("api/Usuario/Delete/{IdUsuario}")]
+        public IHttpActionResult Delete(int IdUsuario)
+        {
+            Dictionary<string, object> resultado = BL.Usuario.Delete(IdUsuario);
+            bool result = (bool)resultado["Resultado"];
+            if (result)
+            {
+                return Ok(resultado);
+            }
+            else
+            {
+                //devuelvan la exepcion
+
+                return BadRequest((string)resultado["Resultado"]);
+            }
+        }
     }
 }

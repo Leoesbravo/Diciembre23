@@ -168,16 +168,60 @@ namespace PL_MVC.Controllers
 
                 if (usuario.IdUsuario > 0)
                 {
-                    //llamar al update
+                    //codogio update
+                    Dictionary<string, object> result = new Dictionary<string, object>();
+                    using (HttpClient client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(ConfigurationManager.AppSettings["WebApi"].ToString());
+                        var responseTask = client.PutAsJsonAsync("Usuario/Update", usuario); 
+                        responseTask.Wait(); // Llamada al metodo de la api
+                        var respuesta = responseTask.Result;
+                        if (respuesta.IsSuccessStatusCode)
+                        {
+                            var readTask = respuesta.Content.ReadAsAsync<Dictionary<string, object>>();
+                            readTask.Wait();
+                            result = readTask.Result;
+
+                        }
+                        else
+                        {
+                            var readTask = respuesta.Content.ReadAsAsync<Dictionary<string, object>>();
+                            readTask.Wait();
+                            result = readTask.Result;
+
+                            //resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseTask.Result["Mensaje"]);
+                        }
+                    }
                     ViewBag.Mensaje = "Se ha actualizado el registro";
                     return PartialView("Modal");
                 }
                 else
                 {
-                    //WCF
-                    Dictionary<string, object> result = BL.Usuario.AddEF(usuario);
-                    bool resultado = (bool)result["Resultado"];
+                    //Dictionary<string, object> result = BL.Usuario.AddEF(usuario);
+                    Dictionary<string, object> result = new Dictionary<string, object>();
+                    using (HttpClient client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(ConfigurationManager.AppSettings["WebApi"].ToString());
+                        var responseTask = client.PostAsJsonAsync("Usuario/Add", usuario);
+                        responseTask.Wait(); // Llamada al metodo de la api
+                        var respuesta = responseTask.Result;
+                        if (respuesta.IsSuccessStatusCode)
+                        {
+                            var readTask = respuesta.Content.ReadAsAsync<Dictionary<string, object>>();
+                            readTask.Wait();
+                            result = readTask.Result;
 
+                        }
+                        else
+                        {
+                            var readTask = respuesta.Content.ReadAsAsync<Dictionary<string, object>>();
+                            readTask.Wait();
+                            result = readTask.Result;
+
+                            //resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseTask.Result["Mensaje"]);
+                        }
+                    }
+                    bool resultado = (bool)result["Resultado"];
                     if (resultado == true)
                     {
                         ViewBag.Mensaje = "El Usuario ha sido insertado";
@@ -210,6 +254,31 @@ namespace PL_MVC.Controllers
         public ActionResult Delete(int IdUsuario)
         {
             //WCF
+
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["WebApi"].ToString());
+                var responseTask = client.DeleteAsync($"Usuario/Delete/{IdUsuario}"); //loca/api/Usuario/Delet/10
+                responseTask.Wait(); // Llamada al metodo de la api
+                var respuesta = responseTask.Result;
+                if (respuesta.IsSuccessStatusCode)
+                {
+                    var readTask = respuesta.Content.ReadAsAsync<Dictionary<string, object>>();
+                    readTask.Wait();
+                    result = readTask.Result;
+
+                }
+                else
+                {
+                    var readTask = respuesta.Content.ReadAsAsync<Dictionary<string, object>>();
+                    readTask.Wait();
+                    result = readTask.Result;
+
+                    //resultado = Newtonsoft.Json.JsonConvert.DeserializeObject<string>(responseTask.Result["Mensaje"]);
+                }
+            }
+
             return View();
         }
         public ActionResult Ajax()
